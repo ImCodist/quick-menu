@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "quick-menu",
+	"version": "${version}",
+	"name": "Quick Menu",
+	"description": "Adds a configurable easy-to-access menu that runs basic repetitive commands.",
+	"authors": [
+		{
+			"name": "codist",
+			"contact": {
+				"homepage": "https://imcodist.xyz"
+			}
+		}
+	],
+	"contact": {
+		"homepage": "https://github.com/ImCodist/quick-menu",
+		"sources": "https://github.com/ImCodist/quick-menu",
+		"issues": "https://github.com/ImCodist/quick-menu/issues"
+	},
+	"license": "GNU-3.0",
+	"icon": "assets/quick-menu/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"xyz.imcodist.QuickMenu"
+		]
+	},
+	"mixins": [
+		"quick-menu.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.19.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}

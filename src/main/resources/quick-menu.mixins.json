@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "xyz.imcodist.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+      "QuickMenuMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
