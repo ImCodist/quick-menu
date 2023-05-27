@@ -19,7 +19,7 @@
 	},
 	"license": "GNU-3.0",
 	"icon": "assets/quick-menu/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"xyz.imcodist.QuickMenu"
