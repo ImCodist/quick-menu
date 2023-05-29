@@ -13,6 +13,7 @@ public class SwitcherSurface implements Surface {
     public SwitcherSurface(boolean header) {
         isHeader = header;
     }
+    public SwitcherSurface() {}
 
     @Override
     public void draw(MatrixStack matrices, ParentComponent component) {

@@ -2,7 +2,6 @@ package xyz.imcodist;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.text.Text;
 import xyz.imcodist.other.Keybindings;
 import xyz.imcodist.ui.MainGameUI;
 

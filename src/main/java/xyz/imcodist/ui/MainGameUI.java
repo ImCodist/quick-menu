@@ -6,20 +6,12 @@ import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.container.GridLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
-import io.wispforest.owo.ui.core.Component;
-import io.wispforest.owo.ui.core.Insets;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
-
-import java.awt.*;
-import java.util.concurrent.Flow;
 
 public class MainGameUI extends BaseOwoScreen<FlowLayout> {
     @Override
