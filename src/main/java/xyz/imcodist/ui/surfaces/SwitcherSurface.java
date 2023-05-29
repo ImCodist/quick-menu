@@ -8,7 +8,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class SwitcherSurface implements Surface {
-    boolean isHeader = true;
+    boolean isHeader = false;
 
     public SwitcherSurface(boolean header) {
         isHeader = header;
@@ -66,8 +66,8 @@ public class SwitcherSurface implements Surface {
         double xMax = (double) width / (double) sourceWidth;
         double yMax = (double) height / (double) sourceHeight;
 
-        for (int xi = 0; xi < xMax; xi++) {
-            for (int yi = 0; yi < yMax; yi++) {
+        for (int xi = 0; xi < Math.ceil(xMax); xi++) {
+            for (int yi = 0; yi < Math.ceil(yMax); yi++) {
                 int newWidth = sourceWidth;
                 int newHeight = sourceHeight;
                 if (Math.floor(xMax) == xi) newWidth *= (double) (xMax - xi);

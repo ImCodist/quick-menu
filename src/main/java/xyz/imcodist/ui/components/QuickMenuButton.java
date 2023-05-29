@@ -8,16 +8,20 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
 public class QuickMenuButton extends ButtonComponent {
     public ItemStack itemIcon;
 
-    public QuickMenuButton(Text message, ItemStack icon, Consumer<ButtonComponent> onPress) {
-        super(message, onPress);
+    public Consumer<QuickMenuButton> rightClick;
+
+    public QuickMenuButton(ItemStack icon, Consumer<ButtonComponent> onPress, Consumer<QuickMenuButton> onRightClick) {
+        super(Text.empty(), onPress);
 
         itemIcon = icon;
+        rightClick = onRightClick;
 
         sizing(Sizing.fixed(26), Sizing.fixed(26));
         renderer(ButtonComponent.Renderer.texture(
@@ -31,10 +35,19 @@ public class QuickMenuButton extends ButtonComponent {
     public void draw(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta) {
         super.draw(matrices, mouseX, mouseY, partialTicks, delta);
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        ItemRenderer itemRenderer = client.getItemRenderer();
+        if (itemIcon != null) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            ItemRenderer itemRenderer = client.getItemRenderer();
 
-        double divide = 5.2;
-        itemRenderer.renderGuiItemIcon(matrices, itemIcon, (int) (x() + (width() / divide)), (int) (y() + (height() / divide)));
+            double divide = 5.2;
+            itemRenderer.renderGuiItemIcon(matrices, itemIcon, (int) (x() + (width() / divide)), (int) (y() + (height() / divide)));
+        }
+    }
+
+    @Override
+    public boolean onMouseDown(double mouseX, double mouseY, int button) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_2) rightClick.accept(this);
+
+        return super.onMouseDown(mouseX, mouseY, button);
     }
 }
