@@ -4,9 +4,6 @@ import io.wispforest.owo.config.annotation.Config;
 import io.wispforest.owo.config.annotation.Modmenu;
 import io.wispforest.owo.config.annotation.RangeConstraint;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Modmenu(modId = "quickmenu")
 @Config(name = "quickmenu", wrapperName = "ModConfig")
 public class ModConfigModel {
