@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "quick-menu",
+	"id": "quickmenu",
 	"version": "${version}",
 	"name": "Quick Menu",
 	"description": "Adds a configurable easy-to-access menu that runs basic repetitive commands.",
@@ -18,7 +18,7 @@
 		"issues": "https://github.com/ImCodist/quick-menu/issues"
 	},
 	"license": "GNU-3.0",
-	"icon": "assets/quick-menu/icon.png",
+	"icon": "assets/quickmenu/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"main": [
@@ -26,7 +26,7 @@
 		]
 	},
 	"mixins": [
-		"quick-menu.mixins.json"
+		"quickmenu.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",

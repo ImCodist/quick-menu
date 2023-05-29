@@ -23,7 +23,7 @@ public class SwitcherSurface implements Surface {
         int height = component.height();
         int sourceX = (isHeader) ? 0 : 24;
 
-        RenderSystem.setShaderTexture(0, new Identifier("quick-menu", "textures/switcher_textures.png"));
+        RenderSystem.setShaderTexture(0, new Identifier("quickmenu", "textures/switcher_textures.png"));
 
         if (!isHeader) RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1, 1, 1, 1);

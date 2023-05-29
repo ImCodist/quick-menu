@@ -5,7 +5,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-public class Keybindings {
+public class ModKeybindings {
     public static KeyBinding menuOpenKeybinding;
 
     public static void initialize() {
