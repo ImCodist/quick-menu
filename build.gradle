@@ -35,6 +35,9 @@ dependencies {
 	annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 
 	include "io.wispforest:owo-sentinel:${project.owo_version}"
+
+	// gson
+	implementation "com.google.code.gson:gson:2.8.6"
 	
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

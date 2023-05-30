@@ -11,4 +11,6 @@ public class ModConfigModel {
     public int menuWidth = 180;
     @RangeConstraint(min = 60, max = 150*3)
     public int menuHeight = 114;
+
+    public boolean closeOnAction = true;
 }

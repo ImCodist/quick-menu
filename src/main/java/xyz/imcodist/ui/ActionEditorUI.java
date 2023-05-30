@@ -12,20 +12,18 @@ import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.core.Insets;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.data.ActionData;
-import xyz.imcodist.data.ActionDataHandler;
+import xyz.imcodist.other.ActionDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
-
-import java.awt.*;
-import java.util.concurrent.Flow;
 
 public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     ActionData actionData = new ActionData();
     boolean newAction = true;
+
+    public BaseOwoScreen<FlowLayout> previousScreen;
 
     public ActionEditorUI(ActionData action) {
         if (action != null) {
@@ -47,30 +45,34 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         // Setup the main layout.
-        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(210), Sizing.fixed(206));
+        int mainLayoutHeight = 206;
+        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(210), Sizing.fixed(mainLayoutHeight));
         mainLayout.surface(new SwitcherSurface());
         rootComponent.child(mainLayout);
 
         // Setup the header.
-        FlowLayout headerLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.fixed(6*4));
+        int headerLayoutHeight = 6*4;
+        FlowLayout headerLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.fixed(headerLayoutHeight));
         headerLayout
                 .surface(new SwitcherSurface(true))
                 .alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         mainLayout.child(headerLayout);
 
-        LabelComponent headerLabel = Components.label(Text.literal("Action Editor"));
+        LabelComponent headerLabel = Components.label(Text.translatable("menu.editor.title"));
         headerLayout.child(headerLabel);
 
         // Setup the property containers
         FlowLayout propertiesLayout = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
-        propertiesLayout.padding(Insets.of(2, 2, 8, 8));
 
-        ScrollContainer<Component> propertiesScroll = Containers.verticalScroll(Sizing.fill(100), Sizing.fill(74), propertiesLayout);
+        int propertiesScrollHeight = mainLayoutHeight - headerLayoutHeight;
+        ScrollContainer<Component> propertiesScroll = Containers.verticalScroll(Sizing.fill(100), Sizing.fixed(propertiesScrollHeight), propertiesLayout);
+        propertiesScroll.padding(Insets.of(0, 5, 8, 8));
         mainLayout.child(propertiesScroll);
 
         // Name property
         FlowLayout nameProperty = createNewProperty("name");
         TextBoxComponent nameTextBox = Components.textBox(Sizing.fixed(100), actionData.name);
+        nameTextBox.cursorStyle(CursorStyle.TEXT);
 
         nameProperty.child(nameTextBox);
         propertiesLayout.child(nameProperty);
@@ -78,12 +80,19 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         // Icon property
         FlowLayout iconProperty = createNewProperty("icon");
         QuickMenuButton iconButton = new QuickMenuButton(actionData.icon, (buttonComponent) -> {
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            QuickMenuButton quickMenuButton = (QuickMenuButton) buttonComponent;
 
-            if (player != null) {
-                QuickMenuButton quickMenuButton = (QuickMenuButton) buttonComponent;
-                quickMenuButton.itemIcon = player.getMainHandStack();
-            }
+            ItemPickerUI itemPicker = new ItemPickerUI();
+            itemPicker.zIndex(1);
+
+            itemPicker.selectedItem = quickMenuButton.itemIcon;
+            quickMenuButton.itemIcon = null;
+
+            itemPicker.onSelectedItem = (item) -> {
+                quickMenuButton.itemIcon = item;
+            };
+
+            rootComponent.child(itemPicker);
         }, (quickMenuButton) -> {});
 
         iconProperty.child(iconButton);
@@ -97,15 +106,17 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         propertiesLayout.child(actionProperty);
 
         // Setup the editor buttons.
-        FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.content());
+        FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content());
         buttonsLayout
-                .horizontalAlignment(HorizontalAlignment.RIGHT)
-                .padding(Insets.of(5, 5, 5, 5));
-        mainLayout.child(buttonsLayout);
+                .surface(Surface.DARK_PANEL)
+                .padding(Insets.of(6))
+                .margins(Insets.of(10, 0, 0, 0));
 
-        ButtonComponent finishButton = Components.button(Text.literal("Finish"), (buttonComponent) -> {
+        rootComponent.child(buttonsLayout);
+
+        ButtonComponent finishButton = Components.button(Text.translatable("menu.editor.button.finish"), (buttonComponent) -> {
             actionData.name = nameTextBox.getText();
-            actionData.icon = iconButton.itemIcon;
+            if (iconButton.itemIcon != null) actionData.icon = iconButton.itemIcon;
 
             actionData.action = actionTextBox.getText();
 
@@ -115,7 +126,13 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             close();
         });
+        ButtonComponent cancelButton = Components.button(Text.translatable("menu.editor.button.cancel"), (buttonComponent) -> {
+            close();
+        });
+
         buttonsLayout.child(finishButton);
+        buttonsLayout.gap(4);
+        buttonsLayout.child(cancelButton);
     }
 
     public FlowLayout createNewProperty(String name) {
@@ -130,5 +147,11 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         layout.child(label);
 
         return layout;
+    }
+
+    @Override
+    public void close() {
+        if (previousScreen != null) MinecraftClient.getInstance().setScreen(previousScreen);
+        else super.close();
     }
 }

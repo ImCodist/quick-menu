@@ -3,6 +3,12 @@
   "key.quickmenu.open": "Open Menu",
 
   "menu.main.title": "Quick Menu",
+  "menu.main.no_actions": "No actions created.",
+  "menu.main.button.add_action": "Add Action",
+
+  "menu.editor.title": "Action Editor",
+  "menu.editor.button.finish": "Finish",
+  "menu.editor.button.cancel": "Cancel",
 
   "menu.editor.property.name": "Name",
   "menu.editor.property.icon": "Icon",

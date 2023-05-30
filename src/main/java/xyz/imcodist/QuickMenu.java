@@ -2,7 +2,7 @@ package xyz.imcodist;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import xyz.imcodist.data.ActionDataHandler;
+import xyz.imcodist.other.ActionDataHandler;
 import xyz.imcodist.other.ModConfig;
 import xyz.imcodist.other.ModKeybindings;
 import xyz.imcodist.ui.MainUI;

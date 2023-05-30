@@ -1,5 +1,6 @@
 package xyz.imcodist.ui.components;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.core.Sizing;
 import net.minecraft.client.MinecraftClient;
