@@ -33,14 +33,16 @@ public class ActionDataHandler {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<ActionDataJSON>>(){}.getType();
 
-        try (FileReader fileReader = new FileReader(file)) {
-            List<ActionDataJSON> actionDataJSONS = gson.fromJson(fileReader, listType);
+        if (file.exists()) {
+            try (FileReader fileReader = new FileReader(file)) {
+                List<ActionDataJSON> actionDataJSONS = gson.fromJson(fileReader, listType);
 
-            for (ActionDataJSON action : actionDataJSONS) {
-                actions.add(ActionData.fromJSON(action));
+                for (ActionDataJSON action : actionDataJSONS) {
+                    actions.add(ActionData.fromJSON(action));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }
