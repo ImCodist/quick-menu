@@ -82,9 +82,10 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         createActionButtons(actionFlowLayout);
 
         // Editor controls.
-        ButtonComponent newButton = Components.button(Text.translatable("menu.main.button.add_action"), (buttonComponent) -> {
-            gotoActionEditor(null);
-        });
+        ButtonComponent newButton = Components.button(
+                Text.translatable("menu.main.button.add_action"),
+                (buttonComponent) -> gotoActionEditor(null)
+        );
         editorLayout.child(newButton);
 
         // Hide or show the editor layout depending on editing or not.
@@ -121,7 +122,6 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         int actions = ActionDataHandler.actions.size();
 
         int curAction = 0;
-        int curRow = 0;
         int rowSize = 5;
 
         if (actions > 0) {
@@ -134,7 +134,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
 
                     // Create the action button.
                     ActionData data = ActionDataHandler.actions.get(curAction);
-                    QuickMenuButton button = createActionButton(data, parent);
+                    QuickMenuButton button = createActionButton(data);
                     buttonRowLayout.child(button);
 
                     curAction++;
@@ -155,7 +155,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    private QuickMenuButton createActionButton(ActionData data, FlowLayout parent) {
+    private QuickMenuButton createActionButton(ActionData data) {
         // Create the button.
         QuickMenuButton button = new QuickMenuButton(data.icon, (buttonComponent) -> {
             // On click.
@@ -185,7 +185,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
             // On right click.
             if (editMode) {
                 ActionDataHandler.remove(data);
-                createActionButtons(parent);
+                MinecraftClient.getInstance().setScreen(cloneMenu());
             }
         });
 

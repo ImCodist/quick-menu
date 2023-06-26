@@ -1,11 +1,8 @@
 package xyz.imcodist.ui.components;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.component.ButtonComponent;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.Sizing;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -33,15 +30,12 @@ public class QuickMenuButton extends ButtonComponent {
     }
 
     @Override
-    public void draw(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta) {
-        super.draw(matrices, mouseX, mouseY, partialTicks, delta);
+    public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
+        super.draw(context, mouseX, mouseY, partialTicks, delta);
 
         if (itemIcon != null) {
-            MinecraftClient client = MinecraftClient.getInstance();
-            ItemRenderer itemRenderer = client.getItemRenderer();
-
             double divide = 5.2;
-            itemRenderer.renderGuiItemIcon(matrices, itemIcon, (int) (x() + (width() / divide)), (int) (y() + (height() / divide)));
+            context.drawItem(itemIcon, (int) (x() + (width() / divide)), (int) (y() + (height() / divide)));
         }
     }
 
