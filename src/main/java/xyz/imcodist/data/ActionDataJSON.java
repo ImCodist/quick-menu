@@ -1,9 +1,9 @@
 package xyz.imcodist.data;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 public class ActionDataJSON {
     public String name;
-    public Map<String, String> actions;
+    public ArrayList<ArrayList<String>> actions;
     public String icon;
 }

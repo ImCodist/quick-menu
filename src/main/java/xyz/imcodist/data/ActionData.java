@@ -7,7 +7,6 @@ import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ActionData {
     public String name;
@@ -18,9 +17,15 @@ public class ActionData {
         ActionDataJSON jsonData = new ActionDataJSON();
 
         jsonData.name = name;
-        jsonData.actions = new HashMap<>();
+        jsonData.actions = new ArrayList<>();
 
-        actions.forEach((action) -> jsonData.actions.put(action.getJsonType(), action.getJsonValue()));
+        actions.forEach((action) -> {
+            ArrayList<String> actionArray = new ArrayList<>();
+            actionArray.add(action.getJsonType());
+            actionArray.add(action.getJsonValue());
+
+            jsonData.actions.add(actionArray);
+        });
 
         if (icon != null) jsonData.icon = icon.getRegistryEntry().value().toString();
 
@@ -33,8 +38,8 @@ public class ActionData {
         data.name = json.name;
         data.actions = new ArrayList<>();
 
-        json.actions.forEach((k, v) -> {
-            BaseActionData actionData = getActionDataType(k, v);
+        json.actions.forEach((actionArray) -> {
+            BaseActionData actionData = getActionDataType(actionArray.get(0), actionArray.get(1));
             data.actions.add(actionData);
         });
 
