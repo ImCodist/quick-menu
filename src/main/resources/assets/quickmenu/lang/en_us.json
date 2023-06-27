@@ -19,5 +19,6 @@
   "text.config.quickmenu.option.menuWidth": "Menu Width",
   "text.config.quickmenu.option.menuHeight": "Menu Height",
   "text.config.quickmenu.option.closeOnAction": "Close on Action",
+  "text.config.quickmenu.option.closeOnKeyReleased": "Close on Key Released",
   "text.config.quickmenu.option.showActionsInTooltip": "Show Actions in Tooltip"
 }

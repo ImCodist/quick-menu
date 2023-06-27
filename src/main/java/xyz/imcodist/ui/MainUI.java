@@ -18,6 +18,7 @@ import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.ActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
 import xyz.imcodist.other.ActionDataHandler;
+import xyz.imcodist.other.ModKeybindings;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
@@ -25,10 +26,26 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     public boolean editMode = false;
 
     private FlowLayout editorLayout;
+    private QuickMenuButton hoveredButton;
 
     @Override
     protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
         return OwoUIAdapter.create(this, Containers::verticalFlow);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (QuickMenu.CONFIG.closeOnKeyReleased()) {
+            if (ModKeybindings.menuOpenKeybinding.matchesKey(keyCode, scanCode) && !editMode) {
+                if (hoveredButton != null) {
+                    hoveredButton.onPress();
+                }
+
+                close();
+            }
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -198,6 +215,9 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
                 MinecraftClient.getInstance().setScreen(cloneMenu());
             }
         });
+
+        button.mouseEnter().subscribe(() -> hoveredButton = button);
+        button.mouseLeave().subscribe(() -> hoveredButton = null);
 
         // Setup the buttons properties.
         StringBuilder actionsText = new StringBuilder();
