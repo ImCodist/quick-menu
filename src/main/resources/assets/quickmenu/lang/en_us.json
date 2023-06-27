@@ -12,5 +12,12 @@
 
   "menu.editor.property.name": "Name",
   "menu.editor.property.icon": "Icon",
-  "menu.editor.property.action": "Action"
+  "menu.editor.property.new_action": "New Action",
+  "menu.editor.actions": "Actions",
+
+  "text.config.quickmenu.title": "Quick Menu Config",
+  "text.config.quickmenu.option.menuWidth": "Menu Width",
+  "text.config.quickmenu.option.menuHeight": "Menu Height",
+  "text.config.quickmenu.option.closeOnAction": "Close on Action",
+  "text.config.quickmenu.option.showActionsInTooltip": "Show Actions in Tooltip"
 }

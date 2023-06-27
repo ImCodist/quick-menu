@@ -1,25 +1,26 @@
 package xyz.imcodist.data;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import xyz.imcodist.data.command_actions.BaseActionData;
+import xyz.imcodist.data.command_actions.CommandActionData;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ActionData {
     public String name;
-    public String action;
+    public ArrayList<BaseActionData> actions = new ArrayList<>();
     public ItemStack icon;
 
     public ActionDataJSON toJSON() {
         ActionDataJSON jsonData = new ActionDataJSON();
 
         jsonData.name = name;
-        jsonData.action = action;
+        jsonData.actions = new HashMap<>();
+
+        actions.forEach((action) -> jsonData.actions.put(action.getJsonType(), action.getJsonValue()));
 
         if (icon != null) jsonData.icon = icon.getRegistryEntry().value().toString();
 
@@ -30,10 +31,31 @@ public class ActionData {
         ActionData data = new ActionData();
 
         data.name = json.name;
-        data.action = json.action;
+        data.actions = new ArrayList<>();
+
+        json.actions.forEach((k, v) -> {
+            BaseActionData actionData = getActionDataType(k, v);
+            data.actions.add(actionData);
+        });
 
         if (json.icon != null) data.icon = new ItemStack(Registries.ITEM.get(new Identifier(json.icon)));
 
         return data;
     }
+
+    private static BaseActionData getActionDataType(String type, String value) {
+        switch (type) {
+            case "base" -> {
+                return new BaseActionData();
+            }
+            case "cmd" -> {
+                CommandActionData commandActionData = new CommandActionData();
+                commandActionData.command = value;
+                return commandActionData;
+            }
+        }
+
+        return null;
+    }
 }
+

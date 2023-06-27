@@ -13,4 +13,5 @@ public class ModConfigModel {
     public int menuHeight = 114;
 
     public boolean closeOnAction = true;
+    public boolean showActionsInTooltip = true;
 }

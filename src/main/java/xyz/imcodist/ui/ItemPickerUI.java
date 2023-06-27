@@ -1,28 +1,23 @@
 package xyz.imcodist.ui;
 
-import io.wispforest.owo.ui.base.BaseOwoScreen;
-import io.wispforest.owo.ui.component.*;
+import io.wispforest.owo.ui.component.ButtonComponent;
+import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.component.TextBoxComponent;
+import io.wispforest.owo.ui.component.TextureComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.OverlayContainer;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.DefaultedRegistry;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Flow;
 import java.util.function.Consumer;
 
 public class ItemPickerUI extends OverlayContainer<FlowLayout> {
@@ -36,7 +31,8 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         // Setup root.
         rootComponent
                 .horizontalAlignment(HorizontalAlignment.CENTER)
-                .verticalAlignment(VerticalAlignment.CENTER);
+                .verticalAlignment(VerticalAlignment.CENTER)
+                .zIndex(20);
 
         // Setup the main layout.
         FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(230), Sizing.fixed(210));
@@ -74,9 +70,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         createItemButtons(itemsLayout, "");
 
         // Add function to the search box.
-        searchBox.onChanged().subscribe((text) -> {
-            createItemButtons(itemsLayout, text);
-        });
+        searchBox.onChanged().subscribe((text) -> createItemButtons(itemsLayout, text));
     }
 
     public void createItemButtons(FlowLayout parent, String search) {
@@ -89,7 +83,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         Registries.ITEM.forEach((item) -> {
             String itemName = item.getName().getString().toLowerCase();
 
-            if (search == "" || itemName.contains(search.toLowerCase())) {
+            if (search.equals("") || itemName.contains(search.toLowerCase())) {
                 items.add(item);
             }
         });

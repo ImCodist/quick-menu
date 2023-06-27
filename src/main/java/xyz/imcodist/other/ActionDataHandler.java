@@ -27,7 +27,7 @@ public class ActionDataHandler {
         save();
     }
 
-    private static void load() {
+    public static void load() {
         File file = new File(FabricLoader.getInstance().getConfigDir().toFile(), "quickmenu_data.json");
         Gson gson = new Gson();
         Type listType = new TypeToken<List<ActionDataJSON>>(){}.getType();
@@ -46,7 +46,7 @@ public class ActionDataHandler {
 
     }
 
-    private static void save() {
+    public static void save() {
         List<ActionDataJSON> actionDataJSONS = new ArrayList<>();
 
         for (ActionData action : actions) {

@@ -10,16 +10,21 @@ import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.ActionData;
+import xyz.imcodist.data.command_actions.CommandActionData;
 import xyz.imcodist.other.ActionDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
 public class MainUI extends BaseOwoScreen<FlowLayout> {
     public boolean editMode = false;
+
+    private FlowLayout editorLayout;
 
     @Override
     protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
@@ -43,7 +48,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         rootComponent.child(mainLayout);
 
         // Create edit layout.
-        FlowLayout editorLayout = Containers.horizontalFlow(Sizing.fixed(0), Sizing.fixed(0));
+        editorLayout = Containers.horizontalFlow(Sizing.fixed(0), Sizing.fixed(0));
         editorLayout.padding(Insets.of(6));
         rootComponent.child(editorLayout);
 
@@ -170,15 +175,20 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
             }
 
             // Run the buttons action.
-            String commandToRun = data.action;
-            if (commandToRun != null) {
-                if (commandToRun.startsWith("/")) {
-                    commandToRun = commandToRun.substring(1);
-                    player.networkHandler.sendChatCommand(commandToRun);
-                } else {
-                    player.networkHandler.sendChatMessage(commandToRun);
+            data.actions.forEach((action) -> {
+                if (action instanceof CommandActionData commandAction) {
+                    String commandToRun = commandAction.command;
+
+                    if (commandToRun != null) {
+                        if (commandToRun.startsWith("/")) {
+                            commandToRun = commandToRun.substring(1);
+                            player.networkHandler.sendChatCommand(commandToRun);
+                        } else {
+                            player.networkHandler.sendChatMessage(commandToRun);
+                        }
+                    }
                 }
-            }
+            });
 
             if (QuickMenu.CONFIG.closeOnAction()) close();
         }, (quickMenuButton) -> {
@@ -190,9 +200,18 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         });
 
         // Setup the buttons properties.
+        StringBuilder actionsText = new StringBuilder();
+        if (QuickMenu.CONFIG.showActionsInTooltip()) {
+            data.actions.forEach(
+                    (actionData) -> actionsText.append("\n").append(actionData.getString())
+            );
+        }
+
+        MutableText tooltip = Text.literal(data.name).append(Text.literal(actionsText.toString()).formatted(Formatting.DARK_GRAY));
+
         button
                 .margins(Insets.of(1, 1, 2, 2))
-                .tooltip(Text.literal(data.name));
+                .tooltip(tooltip);
 
         return button;
     }
