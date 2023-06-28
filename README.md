@@ -1,12 +1,16 @@
-![banner](https://github.com/ImCodist/quick-menu/assets/50346006/9caa6fb8-4bbd-4aef-bb28-ceb161deeba6)
+ ![banner](https://github.com/ImCodist/quick-menu/assets/50346006/9caa6fb8-4bbd-4aef-bb28-ceb161deeba6)
 ![Version](https://img.shields.io/github/v/release/ImCodist/quick-menu?style=flat-square) ![Downloads](https://img.shields.io/github/downloads/ImCodist/quick-menu/total?style=flat-square) ![License](https://img.shields.io/github/license/ImCodist/quick-menu?style=flat-square)
 
 # quick-menu
 **Quick Menu** is a **client-side** mod for Minecraft that adds a **configurable easy-to-access menu** that runs **basic repetitive commands**.<br>
 It aims to save you time by giving you a place to put all the commands you may need for a given context.
 
-The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding library.<br>
+The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding library and [Fabric API](https://modrinth.com/mod/fabric-api).<br>
 It is also recommended to have [Mod Menu](https://modrinth.com/mod/modmenu) installed to access the mods config. *(An alternative way of accessing config is planned)*
+
+## Download
+You can download the **latest version** in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
+The mod is also avaliable to download on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/quick-menu).
 
 ## Features
 <p align="center">
