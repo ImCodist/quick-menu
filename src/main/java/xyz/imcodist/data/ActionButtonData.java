@@ -8,13 +8,13 @@ import xyz.imcodist.data.command_actions.CommandActionData;
 
 import java.util.ArrayList;
 
-public class ActionData {
+public class ActionButtonData {
     public String name;
     public ArrayList<BaseActionData> actions = new ArrayList<>();
     public ItemStack icon;
 
-    public ActionDataJSON toJSON() {
-        ActionDataJSON jsonData = new ActionDataJSON();
+    public ActionButtonDataJSON toJSON() {
+        ActionButtonDataJSON jsonData = new ActionButtonDataJSON();
 
         jsonData.name = name;
         jsonData.actions = new ArrayList<>();
@@ -32,8 +32,8 @@ public class ActionData {
         return jsonData;
     }
 
-    public static ActionData fromJSON(ActionDataJSON json) {
-        ActionData data = new ActionData();
+    public static ActionButtonData fromJSON(ActionButtonDataJSON json) {
+        ActionButtonData data = new ActionButtonData();
 
         data.name = json.name;
         data.actions = new ArrayList<>();

@@ -15,9 +15,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.QuickMenu;
-import xyz.imcodist.data.ActionData;
+import xyz.imcodist.data.ActionButtonData;
 import xyz.imcodist.data.command_actions.CommandActionData;
-import xyz.imcodist.other.ActionDataHandler;
+import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.other.ModKeybindings;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
@@ -26,7 +26,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     public boolean editMode = false;
 
     private FlowLayout editorLayout;
-    private QuickMenuButton hoveredButton;
+    private ActionButtonData hoveredData;
 
     @Override
     protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
@@ -37,8 +37,8 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         if (QuickMenu.CONFIG.closeOnKeyReleased()) {
             if (ModKeybindings.menuOpenKeybinding.matchesKey(keyCode, scanCode) && !editMode) {
-                if (hoveredButton != null) {
-                    hoveredButton.onPress();
+                if (hoveredData != null) {
+                    pressButton(hoveredData);
                 }
 
                 close();
@@ -131,7 +131,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    private void gotoActionEditor(ActionData action) {
+    private void gotoActionEditor(ActionButtonData action) {
         ActionEditorUI actionEditor = new ActionEditorUI(action);
         actionEditor.previousScreen = cloneMenu();
 
@@ -141,7 +141,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     private void createActionButtons(FlowLayout parent) {
         parent.clearChildren();
 
-        int actions = ActionDataHandler.actions.size();
+        int actions = ActionButtonDataHandler.actions.size();
 
         int curAction = 0;
         int rowSize = 5;
@@ -155,7 +155,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
                     if (curAction >= actions) break;
 
                     // Create the action button.
-                    ActionData data = ActionDataHandler.actions.get(curAction);
+                    ActionButtonData data = ActionButtonDataHandler.actions.get(curAction);
                     QuickMenuButton button = createActionButton(data);
                     buttonRowLayout.child(button);
 
@@ -177,47 +177,21 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    private QuickMenuButton createActionButton(ActionData data) {
+    private QuickMenuButton createActionButton(ActionButtonData data) {
         // Create the button.
         QuickMenuButton button = new QuickMenuButton(data.icon, (buttonComponent) -> {
-            // On click.
-            MinecraftClient client = MinecraftClient.getInstance();
-
-            ClientPlayerEntity player = client.player;
-            if (player == null) return;
-
-            if (editMode) {
-                gotoActionEditor(data);
-                return;
-            }
-
-            // Run the buttons action.
-            data.actions.forEach((action) -> {
-                if (action instanceof CommandActionData commandAction) {
-                    String commandToRun = commandAction.command;
-
-                    if (commandToRun != null) {
-                        if (commandToRun.startsWith("/")) {
-                            commandToRun = commandToRun.substring(1);
-                            player.networkHandler.sendChatCommand(commandToRun);
-                        } else {
-                            player.networkHandler.sendChatMessage(commandToRun);
-                        }
-                    }
-                }
-            });
-
-            if (QuickMenu.CONFIG.closeOnAction()) close();
+            if (QuickMenu.CONFIG.closeOnKeyReleased()) return;
+            pressButton(data);
         }, (quickMenuButton) -> {
             // On right click.
             if (editMode) {
-                ActionDataHandler.remove(data);
+                ActionButtonDataHandler.remove(data);
                 MinecraftClient.getInstance().setScreen(cloneMenu());
             }
         });
 
-        button.mouseEnter().subscribe(() -> hoveredButton = button);
-        button.mouseLeave().subscribe(() -> hoveredButton = null);
+        button.mouseEnter().subscribe(() -> hoveredData = data);
+        button.mouseLeave().subscribe(() -> hoveredData = null);
 
         // Setup the buttons properties.
         StringBuilder actionsText = new StringBuilder();
@@ -234,6 +208,37 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
                 .tooltip(tooltip);
 
         return button;
+    }
+
+    public void pressButton(ActionButtonData data) {
+        // On click.
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        ClientPlayerEntity player = client.player;
+        if (player == null) return;
+
+        if (editMode) {
+            gotoActionEditor(data);
+            return;
+        }
+
+        // Run the buttons action.
+        data.actions.forEach((action) -> {
+            if (action instanceof CommandActionData commandAction) {
+                String commandToRun = commandAction.command;
+
+                if (commandToRun != null) {
+                    if (commandToRun.startsWith("/")) {
+                        commandToRun = commandToRun.substring(1);
+                        player.networkHandler.sendChatCommand(commandToRun);
+                    } else {
+                        player.networkHandler.sendChatMessage(commandToRun);
+                    }
+                }
+            }
+        });
+
+        if (QuickMenu.CONFIG.closeOnAction()) close();
     }
 
     public MainUI cloneMenu() {

@@ -2,7 +2,7 @@ package xyz.imcodist.data;
 
 import java.util.ArrayList;
 
-public class ActionDataJSON {
+public class ActionButtonDataJSON {
     public String name;
     public ArrayList<ArrayList<String>> actions;
     public String icon;

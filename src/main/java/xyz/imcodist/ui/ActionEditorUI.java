@@ -14,10 +14,10 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
-import xyz.imcodist.data.ActionData;
+import xyz.imcodist.data.ActionButtonData;
 import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
-import xyz.imcodist.other.ActionDataHandler;
+import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
-    ActionData actionData = new ActionData();
+    ActionButtonData actionData = new ActionButtonData();
     boolean newAction = true;
 
     FlowLayout actionsLayout;
@@ -36,7 +36,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     public BaseOwoScreen<FlowLayout> previousScreen;
 
-    public ActionEditorUI(ActionData action) {
+    public ActionEditorUI(ActionButtonData action) {
         if (action != null) {
             actionData = action;
             newAction = false;
@@ -129,9 +129,9 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             updateActionData();
 
             if (newAction) {
-                ActionDataHandler.add(actionData);
+                ActionButtonDataHandler.add(actionData);
             } else {
-                ActionDataHandler.save();
+                ActionButtonDataHandler.save();
             }
 
             close();
