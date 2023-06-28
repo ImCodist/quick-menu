@@ -12,9 +12,11 @@ public class QuickMenu implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Initialize the mods keybinds and data handler.
         ModKeybindings.initialize();
         ActionButtonDataHandler.initialize();
 
+        // On the end of each tick check to see if the keybind has been pressed.
         ClientTickEvents.END_CLIENT_TICK.register((client) -> {
             while (ModKeybindings.menuOpenKeybinding.wasPressed()) {
                 client.setScreen(new MainUI());

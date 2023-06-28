@@ -34,14 +34,14 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER)
                 .zIndex(20);
 
-        // Setup the main layout.
+        // Set up the main layout.
         FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(230), Sizing.fixed(210));
         mainLayout
                 .surface(new SwitcherSurface())
                 .padding(Insets.of(10));
         rootComponent.child(mainLayout);
 
-        // Setup search bar.
+        // Set up the search bar and its icon.
         FlowLayout searchBoxLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.fixed(20));
         searchBoxLayout
                 .verticalAlignment(VerticalAlignment.TOP)
@@ -74,12 +74,11 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
     }
 
     public void createItemButtons(FlowLayout parent, String search) {
+        // Clear the old buttons.
         parent.clearChildren();
 
+        // Create a list of items and add only those that fit the search.
         List<Item> items = new ArrayList<>();
-        int curItem = 0;
-        int rowSize = 8;
-
         Registries.ITEM.forEach((item) -> {
             String itemName = item.getName().getString().toLowerCase();
 
@@ -89,7 +88,11 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         });
 
         if (items.size() == 0) return;
-        for (int i = 0; i < Math.ceil((double) items.size() / (double) rowSize); i++) {
+
+        // Create each button in different rows.
+        int curItem = 0;
+        double rowSize = 8;
+        for (int i = 0; i < Math.ceil((double) items.size() / rowSize); i++) {
             FlowLayout rowLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.content());
 
             for (int x = 0; x < rowSize; x++) {
@@ -98,15 +101,14 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 ItemStack item = items.get(curItem).getDefaultStack();
 
                 ButtonComponent button = new QuickMenuButton(item, (buttonComponent) -> {
+                    // On Left Click.
                     selectedItem = item;
-                    onSelectedItem.accept(selectedItem);
-
                     remove();
                 }, (quickMenuButton) -> {});
                 button.tooltip(item.getName());
 
                 rowLayout.child(button);
-                curItem += 1;
+                curItem++;
             }
 
             parent.child(rowLayout);

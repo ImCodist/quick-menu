@@ -34,21 +34,6 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (QuickMenu.CONFIG.closeOnKeyReleased()) {
-            if (ModKeybindings.menuOpenKeybinding.matchesKey(keyCode, scanCode) && !editMode) {
-                if (hoveredData != null) {
-                    pressButton(hoveredData);
-                }
-
-                close();
-            }
-        }
-
-        return super.keyReleased(keyCode, scanCode, modifiers);
-    }
-
-    @Override
     protected void build(FlowLayout rootComponent) {
         // Setup root.
         rootComponent
@@ -69,8 +54,8 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         editorLayout.padding(Insets.of(6));
         rootComponent.child(editorLayout);
 
-        // Create header.
-        int headerLayoutHeight = 6*4;
+        // Create header and its components.
+        int headerLayoutHeight = 24;
         FlowLayout headerLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.fixed(headerLayoutHeight));
         headerLayout
                 .surface(new SwitcherSurface(true))
@@ -78,14 +63,16 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
         mainLayout.child(headerLayout);
 
+        // Header label.
         LabelComponent headerLabel = Components.label(Text.translatable("menu.main.title"));
         headerLabel
                 .shadow(true);
         headerLayout.child(headerLabel);
 
+        // Header edit button.
         ButtonComponent headerEditButton = Components.button(Text.literal("✎"), (buttonComponent) -> {
             editMode = !editMode;
-            updateEditorLayout(editorLayout);
+            updateEditorLayout();
         });
         headerEditButton
                 .textShadow(true)
@@ -103,7 +90,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         // Create action buttons.
         createActionButtons(actionFlowLayout);
 
-        // Editor controls.
+        // Editor components.
         ButtonComponent newButton = Components.button(
                 Text.translatable("menu.main.button.add_action"),
                 (buttonComponent) -> gotoActionEditor(null)
@@ -111,10 +98,10 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         editorLayout.child(newButton);
 
         // Hide or show the editor layout depending on editing or not.
-        updateEditorLayout(editorLayout);
+        updateEditorLayout();
     }
 
-    private void updateEditorLayout(FlowLayout editorLayout) {
+    private void updateEditorLayout() {
         if (!editMode) {
             // Hide the editor layout.
             editorLayout
@@ -132,27 +119,32 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     }
 
     private void gotoActionEditor(ActionButtonData action) {
+        // Create the action editor and set the current screen to it.
         ActionEditorUI actionEditor = new ActionEditorUI(action);
         actionEditor.previousScreen = cloneMenu();
 
-        MinecraftClient.getInstance().setScreen(actionEditor);
+        if (client == null) return;
+        client.setScreen(actionEditor);
     }
 
     private void createActionButtons(FlowLayout parent) {
+        // Clear all the old buttons.
         parent.clearChildren();
 
-        int actions = ActionButtonDataHandler.actions.size();
+        // Loop through each action button and determine the row it is on.
+        double actionsCount = ActionButtonDataHandler.actions.size();
 
         int curAction = 0;
-        int rowSize = 5;
+        double rowSize = 5;
 
-        if (actions > 0) {
-            for (int y = 0; y < Math.ceil((double) actions / (double) rowSize); y++) {
+        if (actionsCount > 0) {
+            for (int y = 0; y < Math.ceil(actionsCount / rowSize); y++) {
+                // Create a horizontal layout for each row.
                 FlowLayout buttonRowLayout = Containers.horizontalFlow(Sizing.fill(100), Sizing.content());
                 buttonRowLayout.horizontalAlignment(HorizontalAlignment.CENTER);
 
                 for (int i = 0; i < rowSize; i++) {
-                    if (curAction >= actions) break;
+                    if (curAction >= actionsCount) break;
 
                     // Create the action button.
                     ActionButtonData data = ActionButtonDataHandler.actions.get(curAction);
@@ -180,6 +172,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     private QuickMenuButton createActionButton(ActionButtonData data) {
         // Create the button.
         QuickMenuButton button = new QuickMenuButton(data.icon, (buttonComponent) -> {
+            // On left click.
             if (QuickMenu.CONFIG.closeOnKeyReleased()) return;
             pressButton(data);
         }, (quickMenuButton) -> {
@@ -190,12 +183,14 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
             }
         });
 
+        // For the close on release option.
         button.mouseEnter().subscribe(() -> hoveredData = data);
         button.mouseLeave().subscribe(() -> hoveredData = null);
 
-        // Setup the buttons properties.
+        // Set up the buttons properties.
         StringBuilder actionsText = new StringBuilder();
         if (QuickMenu.CONFIG.showActionsInTooltip()) {
+            // If the tooltip should contain the actions the button should run.
             data.actions.forEach(
                     (actionData) -> actionsText.append("\n").append(actionData.getString())
             );
@@ -211,12 +206,6 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     }
 
     public void pressButton(ActionButtonData data) {
-        // On click.
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        ClientPlayerEntity player = client.player;
-        if (player == null) return;
-
         if (editMode) {
             gotoActionEditor(data);
             return;
@@ -225,6 +214,13 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         // Run the buttons action.
         data.actions.forEach((action) -> {
             if (action instanceof CommandActionData commandAction) {
+                // Make sure the command can be run on the player.
+                if (client == null) return;
+
+                ClientPlayerEntity player = client.player;
+                if (player == null) return;
+
+                // Run the command.
                 String commandToRun = commandAction.command;
 
                 if (commandToRun != null) {
@@ -242,10 +238,29 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
     }
 
     public MainUI cloneMenu() {
+        // Create an instance of this menu with the same edit mode.
         MainUI clone = new MainUI();
         clone.editMode = editMode;
 
         return clone;
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        // If the menu should close on key release.
+        if (QuickMenu.CONFIG.closeOnKeyReleased()) {
+            // Make sure the keybind is correct.
+            if (ModKeybindings.menuOpenKeybinding.matchesKey(keyCode, scanCode) && !editMode) {
+                if (hoveredData != null) {
+                    // Press the current button.
+                    pressButton(hoveredData);
+                }
+
+                close();
+            }
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override
