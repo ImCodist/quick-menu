@@ -9,7 +9,7 @@ The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding l
 It is also recommended to have [Mod Menu](https://modrinth.com/mod/modmenu) installed to access the mods config. *(An alternative way of accessing config is planned)*
 
 ## Download
-You can download the latest version in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
+You can download the **latest version** in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
 The mod is also avaliable to download on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/quick-menu).
 
 ## Features
