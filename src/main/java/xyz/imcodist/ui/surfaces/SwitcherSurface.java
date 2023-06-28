@@ -20,23 +20,25 @@ public class SwitcherSurface implements Surface {
         int y = component.y();
         int width = component.width();
         int height = component.height();
+
         int sourceX = (isHeader) ? 0 : 24;
 
+        // Make sure the background renders as transparent.
         if (!isHeader) RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
-//        drawRepeatingTexture(matrices, x + sideSize, y, sourceX + sideSize, 0, 1, sideSize, 52, 39, width - (sideSize * 2), sideSize);
-//        drawRepeatingTexture(matrices, x + sideSize, y + height - sideSize, sourceX + sideSize, sideSize + 1, 1, sideSize, 52, 39, width - (sideSize * 2), sideSize);
-//        drawRepeatingTexture(matrices, x, y + sideSize, sourceX, 6, sideSize, 1, 52, 39, sideSize, height - (sideSize * 2));
-//        drawRepeatingTexture(matrices, x + width - sideSize, y + sideSize, sourceX + sideSize + 1, 6, sideSize, 1, 52, 39, sideSize, height - (sideSize * 2));
-
+        // Draws the texture as a 9 slice.
         drawNineSlicedTexture(context, x, y, width, height, sourceX, 0, 6, 6, 12, 12, 52, 50);
 
+        // Undo previous render system changes.
         if (!isHeader) RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1, 1, 1, 1);
     }
 
     public void drawNineSlicedTexture(OwoUIDrawContext context, int x, int y, int width, int height, int sourceX, int sourceY, int sideWidth, int sideHeight, int centerWidth, int centerHeight, int textureWidth, int textureHeight) {
+        // before someone goes and tells me this method was useless to make i got
+        // so frustrated trying to use the minecraft nine slice method but hated it a lot
+
         // TOP AND BOTTOM
         drawRepeatingTexture(context, x + sideWidth, y, sourceX + sideWidth, sourceY, centerWidth, sideHeight, textureWidth, textureHeight, width - (sideWidth * 2), sideHeight);
         drawRepeatingTexture(context, x + sideWidth, y + height - sideHeight, sourceX + sideWidth, sourceY + sideHeight + centerHeight, centerWidth, sideHeight, textureWidth, textureHeight, width - (sideWidth * 2), sideHeight);

@@ -32,6 +32,7 @@ public class ActionButtonDataHandler {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<ActionButtonDataJSON>>(){}.getType();
 
+        // Load the json.
         if (file.exists()) {
             try (FileReader fileReader = new FileReader(file)) {
                 List<ActionButtonDataJSON> actionDataJSONS = gson.fromJson(fileReader, listType);
@@ -56,6 +57,7 @@ public class ActionButtonDataHandler {
         Gson gson = new Gson();
         String jsonString = gson.toJson(actionDataJSONS);
 
+        // Save the json.
         File file = new File(FabricLoader.getInstance().getConfigDir().toFile(), "quickmenu_data.json");
         try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(jsonString);

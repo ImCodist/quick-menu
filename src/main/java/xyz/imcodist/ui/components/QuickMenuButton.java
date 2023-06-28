@@ -33,6 +33,7 @@ public class QuickMenuButton extends ButtonComponent {
     public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
         super.draw(context, mouseX, mouseY, partialTicks, delta);
 
+        // Draw the item inside the button.
         if (itemIcon != null) {
             double divide = 5.2;
             context.drawItem(itemIcon, (int) (x() + (width() / divide)), (int) (y() + (height() / divide)));
@@ -42,7 +43,6 @@ public class QuickMenuButton extends ButtonComponent {
     @Override
     public boolean onMouseDown(double mouseX, double mouseY, int button) {
         if (button == GLFW.GLFW_MOUSE_BUTTON_2) rightClick.accept(this);
-
         return super.onMouseDown(mouseX, mouseY, button);
     }
 }

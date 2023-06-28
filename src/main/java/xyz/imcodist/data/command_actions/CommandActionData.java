@@ -7,7 +7,6 @@ public class CommandActionData extends BaseActionData {
     public String getJsonType() {
         return "cmd";
     }
-
     @Override
     public String getJsonValue() {
         return command;

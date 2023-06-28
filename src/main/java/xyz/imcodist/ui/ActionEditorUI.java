@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
-    ActionButtonData actionData = new ActionButtonData();
+    ActionButtonData actionButtonData = new ActionButtonData();
     boolean newAction = true;
 
     FlowLayout actionsLayout;
@@ -38,7 +38,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     public ActionEditorUI(ActionButtonData action) {
         if (action != null) {
-            actionData = action;
+            actionButtonData = action;
             newAction = false;
         }
     }
@@ -83,7 +83,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         // Name property
         FlowLayout nameProperty = createNewProperty("name");
         nameProperty.padding(nameProperty.padding().get().withTop(0));
-        TextBoxComponent nameTextBox = Components.textBox(Sizing.fixed(100), actionData.name);
+        TextBoxComponent nameTextBox = Components.textBox(Sizing.fixed(100), actionButtonData.name);
         nameTextBox.cursorStyle(CursorStyle.TEXT);
 
         nameProperty.child(nameTextBox);
@@ -91,7 +91,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         // Icon property
         FlowLayout iconProperty = createNewProperty("icon");
-        QuickMenuButton iconButton = new QuickMenuButton(actionData.icon, (buttonComponent) -> {
+        QuickMenuButton iconButton = new QuickMenuButton(actionButtonData.icon, (buttonComponent) -> {
             QuickMenuButton quickMenuButton = (QuickMenuButton) buttonComponent;
 
             itemPicker = new ItemPickerUI();
@@ -108,7 +108,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         propertiesLayout.child(iconProperty);
 
         // Actions
-        actionArray = new ArrayList<>(actionData.actions);
+        actionArray = new ArrayList<>(actionButtonData.actions);
         createActions(propertiesLayout);
 
         // Set up the editor buttons.
@@ -121,22 +121,21 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         rootComponent.child(buttonsLayout);
 
         ButtonComponent finishButton = Components.button(Text.translatable("menu.editor.button.finish"), (buttonComponent) -> {
-            actionData.name = nameTextBox.getText();
-            if (iconButton.itemIcon != null) actionData.icon = iconButton.itemIcon;
+            // Save the action button and close.
+            actionButtonData.name = nameTextBox.getText();
+            if (iconButton.itemIcon != null) actionButtonData.icon = iconButton.itemIcon;
 
-            //actionData.action = actionTextBox.getText();
-            actionData.actions = actionArray;
+            actionButtonData.actions = actionArray;
             updateActionData();
 
-            if (newAction) {
-                ActionButtonDataHandler.add(actionData);
-            } else {
-                ActionButtonDataHandler.save();
-            }
+            // Add or save the current action button.
+            if (newAction) ActionButtonDataHandler.add(actionButtonData);
+            else ActionButtonDataHandler.save();
 
             close();
         });
         ButtonComponent cancelButton = Components.button(
+                // Close out without saving.
                 Text.translatable("menu.editor.button.cancel"),
                 (buttonComponent) -> close()
         );
@@ -155,11 +154,13 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     }
 
     public FlowLayout createNewProperty(String name, boolean underline, boolean useTranslatable) {
+        // Create the property's layout.
         FlowLayout layout = Containers.horizontalFlow(Sizing.fill(100), Sizing.content());
         layout
                 .padding(Insets.of(4, 0, 0, 5))
                 .alignment(HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
 
+        // Create the description label.
         MutableText labelText;
         if (useTranslatable) labelText = Text.translatable("menu.editor.property." + name);
         else labelText = Text.literal(name);
@@ -177,12 +178,14 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     public void createActions(FlowLayout layout) {
         updateActionData();
 
+        // Clear the original layout of all previous buttons.
         actionsSource.clear();
         if (actionsLayout != null) actionsLayout.remove();
 
         actionsLayout = createActionsLayout();
         layout.child(actionsLayout);
 
+        // Create each action in a list.
         AtomicInteger i = new AtomicInteger();
         actionArray.forEach((action) -> {
             String name = "ACT";
@@ -191,6 +194,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             FlowLayout property = createNewProperty(name + " #" + (i.get() + 1), false, false);
             Component source = null;
 
+            // If the action is a command add a input textbox.
             if (action instanceof CommandActionData commandAction) {
                 TextBoxComponent textBoxComponent = Components.textBox(Sizing.fill(57));
 
@@ -201,6 +205,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
                 source = textBoxComponent;
             }
 
+            // Add the remove button.
             ButtonComponent removeActionButton = Components.button(Text.literal(" - "), (buttonComponent -> {
                 int currentIndex = actionArray.indexOf(action);
                 actionsSource.remove(currentIndex);
@@ -218,7 +223,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             i.addAndGet(1);
         });
 
-        // New Action Button
+        // New Action Button at the bottom.
         FlowLayout actionLayout = createNewProperty("new_action", false);
         actionLayout.padding(actionLayout.padding().get().add(0, 6, 0, 0));
 
@@ -232,6 +237,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     }
 
     public FlowLayout createActionsLayout() {
+        // Sets up the layout for each action to be added to.
         FlowLayout layout = Containers.collapsible(Sizing.fill(100), Sizing.content(), Text.translatable("menu.editor.actions"), true);
         layout
                 .padding(Insets.of(4, 0, -5, 5))
@@ -243,6 +249,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     public void updateActionData() {
         if (actionsSource.isEmpty()) return;
 
+        // Save each actions source to its respective action.
         AtomicInteger i = new AtomicInteger();
         actionArray.forEach((action) -> {
             if (actionsSource.size() <= i.get()) return;
@@ -260,8 +267,8 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     @Override
     public void close() {
         if (itemPicker != null && itemPicker.parent() != null) {
+            // Close the item picker before closing the editor ui.
             itemPicker.remove();
-
             itemPicker = null;
             return;
         }
