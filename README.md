@@ -8,6 +8,10 @@ It aims to save you time by giving you a place to put all the commands you may n
 The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding library and [Fabric API](https://modrinth.com/mod/fabric-api).<br>
 It is also recommended to have [Mod Menu](https://modrinth.com/mod/modmenu) installed to access the mods config. *(An alternative way of accessing config is planned)*
 
+## Download
+You can download the latest version in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
+The mod is also avaliable to download on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/quick-menu).
+
 ## Features
 <p align="center">
   <img src="https://github.com/ImCodist/quick-menu/assets/50346006/e6ce7cf2-43f5-442e-bf90-8d912eb0fa58" alt="In-Game Preview"/>
