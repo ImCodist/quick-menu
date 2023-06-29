@@ -49,8 +49,8 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             actionArray = new ArrayList<>(actionButtonData.actions);
 
-            keybind = actionButtonData.keybind;
-            if (keybind.size() >= 3) boundKeybind = true;
+            keybind = new ArrayList<>(actionButtonData.keybind);
+            if (keybind.size() >= 4) boundKeybind = true;
 
             newAction = false;
         }
@@ -304,10 +304,22 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         String message;
 
         if (!boundKeybind) message = "Not Bound";
-        else message = InputUtil.fromKeyCode(keybind.get(0), keybind.get(1)).getLocalizedText().getString();
+        else {
+            boolean isMouse = keybind.get(3) == 1;
+
+            if (!isMouse) {
+                message = InputUtil.fromKeyCode(keybind.get(0), keybind.get(1)).getLocalizedText().getString();
+            } else {
+                message = switch (keybind.get(0)) {
+                    case 0 -> "Left Button";
+                    case 1 -> "Right Button";
+                    case 2 -> "Middle Button";
+                    default -> "Mouse " + keybind.get(0);
+                };
+            }
+        }
 
         if (settingKeybind) message = "> " + message + " <";
-
         keybindButton.setMessage(Text.of(message));
     }
 
@@ -325,6 +337,8 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
                 keybind.add(scanCode);
 
                 keybind.add(modifiers);
+
+                keybind.add(0);
             } else {
                 boundKeybind = false;
                 wasEscape = true;
@@ -335,6 +349,35 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         }
 
         if (!wasEscape) return super.keyPressed(keyCode, scanCode, modifiers);
+        else return false;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        boolean keybindSet = false;
+
+        if (settingKeybind) {
+            keybindSet = true;
+
+            keybind.clear();
+
+            if (button <= 2) {
+                boundKeybind = true;
+
+                keybind.add(button);
+                keybind.add(0);
+                keybind.add(0);
+
+                keybind.add(1);
+            } else {
+                boundKeybind = false;
+            }
+
+            settingKeybind = false;
+            updateKeybindButton();
+        }
+
+        if (!keybindSet) return super.mouseClicked(mouseX, mouseY, button);
         else return false;
     }
 

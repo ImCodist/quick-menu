@@ -17,26 +17,47 @@ public class QuickMenu implements ModInitializer {
         ModKeybindings.initialize();
         ActionButtonDataHandler.initialize();
 
-        // On the end of each tick check to see if the keybind has been pressed.
+        // On the end of each tick check to see if a keybind has been pressed.
         ClientTickEvents.END_CLIENT_TICK.register((client) -> {
+            // Check for menu open keybind.
             while (ModKeybindings.menuOpenKeybinding.wasPressed()) {
                 client.setScreen(new MainUI());
             }
 
+            // Check for action buttons keybinds.
+            // I really dont like this.
             if (client.currentScreen == null) {
                 ActionButtonDataHandler.actions.forEach((actionButtonData) -> {
-                    InputUtil.Key key = actionButtonData.getKey();
-                    if (key == null) return;
+                    if (actionButtonData.keybind.get(3) == 0) {
+                        // Key press.
+                        InputUtil.Key key = actionButtonData.getKey();
+                        if (key == null) return;
 
-                    long handle = client.getWindow().getHandle();
-                    if (InputUtil.isKeyPressed(handle, key.getCode())) {
-                        if (!actionButtonData.keyPressed) {
-                            actionButtonData.run();
+                        long handle = client.getWindow().getHandle();
+                        if (InputUtil.isKeyPressed(handle, key.getCode())) {
+                            if (!actionButtonData.keyPressed) {
+                                actionButtonData.run();
+                            }
+
+                            actionButtonData.keyPressed = true;
+                        } else {
+                            actionButtonData.keyPressed = false;
+                        }
+                    } else {
+                        // Mouse press.
+                        // TODO: Allow buttons greater then 2 to be bound.
+                        int mouseButton = actionButtonData.keybind.get(0);
+                        boolean pressed = false;
+
+                        switch (mouseButton) {
+                            case 0 -> pressed = client.mouse.wasLeftButtonClicked();
+                            case 1 -> pressed = client.mouse.wasRightButtonClicked();
+                            case 2 -> pressed = client.mouse.wasMiddleButtonClicked();
                         }
 
-                        actionButtonData.keyPressed = true;
-                    } else {
-                        actionButtonData.keyPressed = false;
+                        if (pressed) {
+                            actionButtonData.run();
+                        }
                     }
                 });
             }
