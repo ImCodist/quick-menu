@@ -1,5 +1,6 @@
 package xyz.imcodist.ui;
 
+import io.wispforest.owo.config.ui.ConfigScreen;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -74,7 +75,9 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         });
         headerEditButton
                 .textShadow(true)
-                .renderer(ButtonComponent.Renderer.flat(0x000000, 0x000000, 0x000000));
+                .renderer(ButtonComponent.Renderer.flat(0x000000, 0x000000, 0x000000))
+                .margins(Insets.of(0, 0, 5, 0))
+                .horizontalSizing(Sizing.fixed(10));
         headerLayout.child(headerEditButton);
 
         // Setup action layouts.
@@ -94,6 +97,17 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
                 (buttonComponent) -> gotoActionEditor(null)
         );
         editorLayout.child(newButton);
+
+        editorLayout.gap(5);
+
+        ButtonComponent configButton = Components.button(
+                Text.translatable("menu.main.button.config"),
+                (buttonComponent) -> {
+                    if (client == null) return;
+                    client.setScreen(ConfigScreen.create(QuickMenu.CONFIG, null));
+                }
+        );
+        editorLayout.child(configButton);
 
         // Hide or show the editor layout depending on editing or not.
         updateEditorLayout();
