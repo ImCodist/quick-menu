@@ -31,7 +31,7 @@ In **edit mode** you can:
 - Delete an action button by right-clicking the button you'd like to delete.
 
 ## TODO
-- [ ] Keybinds to activate each button.
+- [x] Keybinds to activate each button.
 - [ ] Group system that can show or hide itself when not active. (Server specific groups)
 - [ ] More action types. (Keys, Menus, Timers)
 - [ ] More customization options. (Different themes, change button size)
