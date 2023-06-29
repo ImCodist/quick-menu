@@ -77,7 +77,7 @@ public class ActionButtonData {
     }
 
     public InputUtil.Key getKey() {
-        if (keybind.size() < 3) return null;
+        if (keybind.size() < 4) return null;
         return InputUtil.fromKeyCode(keybind.get(0), keybind.get(1));
     }
 

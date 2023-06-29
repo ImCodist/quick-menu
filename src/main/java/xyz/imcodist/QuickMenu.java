@@ -29,6 +29,7 @@ public class QuickMenu implements ModInitializer {
             if (client.currentScreen == null) {
                 ActionButtonDataHandler.actions.forEach((actionButtonData) -> {
                     boolean run = false;
+                    if (actionButtonData.keybind.size() < 4) return;
 
                     if (actionButtonData.keybind.get(3) == 0) {
                         // Key press.
