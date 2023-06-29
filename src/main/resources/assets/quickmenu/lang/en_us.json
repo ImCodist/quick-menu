@@ -2,10 +2,12 @@
   "key.category.quickmenu": "Quick Menu",
   "key.quickmenu.open": "Open Menu",
 
+
   "menu.main.title": "Quick Menu",
   "menu.main.no_actions": "No actions created.",
   "menu.main.button.add_action": "Add Action",
   "menu.main.button.config": "Config",
+
 
   "menu.editor.title": "Action Editor",
   "menu.editor.button.finish": "Finish",
@@ -19,7 +21,12 @@
   "menu.editor.property.keybind": "Keybind",
   "menu.editor.property.new_action": "New Action",
 
+
   "text.config.quickmenu.title": "Quick Menu Config",
+
+  "text.config.quickmenu.section.menu": "Menu",
+  "text.config.quickmenu.section.action_buttons": "Action Buttons",
+
   "text.config.quickmenu.option.menuWidth": "Menu Width",
   "text.config.quickmenu.option.menuHeight": "Menu Height",
   "text.config.quickmenu.option.closeOnAction": "Close on Action",
