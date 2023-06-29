@@ -23,5 +23,10 @@
   "text.config.quickmenu.option.menuHeight": "Menu Height",
   "text.config.quickmenu.option.closeOnAction": "Close on Action",
   "text.config.quickmenu.option.closeOnKeyReleased": "Close on Key Released",
-  "text.config.quickmenu.option.showActionsInTooltip": "Show Actions in Tooltip"
+  "text.config.quickmenu.option.showActionsInTooltip": "Show Actions in Tooltip",
+  "text.config.quickmenu.option.displayRunText": "Show Run Text",
+
+  "text.config.quickmenu.option.displayRunText.value.always": "Always",
+  "text.config.quickmenu.option.displayRunText.value.keybind_only": "Keybind Only",
+  "text.config.quickmenu.option.displayRunText.value.never": "Never"
 }

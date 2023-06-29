@@ -28,6 +28,8 @@ public class QuickMenu implements ModInitializer {
             // I really dont like this.
             if (client.currentScreen == null) {
                 ActionButtonDataHandler.actions.forEach((actionButtonData) -> {
+                    boolean run = false;
+
                     if (actionButtonData.keybind.get(3) == 0) {
                         // Key press.
                         InputUtil.Key key = actionButtonData.getKey();
@@ -35,10 +37,7 @@ public class QuickMenu implements ModInitializer {
 
                         long handle = client.getWindow().getHandle();
                         if (InputUtil.isKeyPressed(handle, key.getCode())) {
-                            if (!actionButtonData.keyPressed) {
-                                actionButtonData.run();
-                            }
-
+                            if (!actionButtonData.keyPressed) run = true;
                             actionButtonData.keyPressed = true;
                         } else {
                             actionButtonData.keyPressed = false;
@@ -55,9 +54,11 @@ public class QuickMenu implements ModInitializer {
                             case 2 -> pressed = client.mouse.wasMiddleButtonClicked();
                         }
 
-                        if (pressed) {
-                            actionButtonData.run();
-                        }
+                        if (pressed) run = true;
+                    }
+
+                    if (run) {
+                        actionButtonData.run(true);
                     }
                 });
             }

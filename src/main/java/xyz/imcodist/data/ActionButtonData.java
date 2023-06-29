@@ -5,9 +5,12 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
+import xyz.imcodist.other.ModConfigModel;
 
 import java.util.ArrayList;
 
@@ -79,6 +82,20 @@ public class ActionButtonData {
     }
 
     public void run() {
+        run(false);
+    }
+
+    public void run(boolean isKeybind) {
+        // Show run message.
+        ModConfigModel.DisplayRunText displayRunText = QuickMenu.CONFIG.displayRunText();
+        if (displayRunText == ModConfigModel.DisplayRunText.ALWAYS || displayRunText == ModConfigModel.DisplayRunText.KEYBIND_ONLY && isKeybind) {
+            MinecraftClient client = MinecraftClient.getInstance();
+
+            if (client != null && client.player != null) {
+                client.player.sendMessage(Text.of("Ran action \"" + name + "\""), true);
+            }
+        }
+
         // Run the buttons action.
         actions.forEach((action) -> {
             if (action instanceof CommandActionData commandAction) {
