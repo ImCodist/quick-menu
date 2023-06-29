@@ -90,7 +90,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         int propertiesScrollHeight = mainLayoutHeight - headerLayoutHeight;
         ScrollContainer<Component> propertiesScroll = Containers.verticalScroll(Sizing.fill(100), Sizing.fixed(propertiesScrollHeight), propertiesLayout);
-        propertiesScroll.padding(Insets.of(5, 5, 8, 8));
+        propertiesScroll.padding(Insets.of(5, 5, 8, 3));
         mainLayout.child(propertiesScroll);
 
         // Name property
@@ -193,7 +193,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         // Create the property's layout.
         FlowLayout layout = Containers.horizontalFlow(Sizing.fill(100), Sizing.content());
         layout
-                .padding(Insets.of(4, 0, 0, 5))
+                .padding(Insets.of(4, 0, 0, 4))
                 .alignment(HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
 
         // Create the description label.

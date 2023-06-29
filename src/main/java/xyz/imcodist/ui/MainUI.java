@@ -14,6 +14,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.ActionButtonData;
 import xyz.imcodist.other.ActionButtonDataHandler;
@@ -235,6 +236,16 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         clone.editMode = editMode;
 
         return clone;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_E) {
+            editMode = !editMode;
+            updateEditorLayout();
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
