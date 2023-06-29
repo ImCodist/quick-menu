@@ -9,11 +9,14 @@
   "menu.editor.title": "Action Editor",
   "menu.editor.button.finish": "Finish",
   "menu.editor.button.cancel": "Cancel",
+  "menu.editor.actions": "Actions",
+  "menu.editor.advanced": "Advanced",
+  "menu.editor.not_bound": "Not Bound",
 
   "menu.editor.property.name": "Name",
   "menu.editor.property.icon": "Icon",
+  "menu.editor.property.keybind": "Keybind",
   "menu.editor.property.new_action": "New Action",
-  "menu.editor.actions": "Actions",
 
   "text.config.quickmenu.title": "Quick Menu Config",
   "text.config.quickmenu.option.menuWidth": "Menu Width",

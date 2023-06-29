@@ -9,14 +9,12 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.ActionButtonData;
-import xyz.imcodist.data.command_actions.CommandActionData;
 import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.other.ModKeybindings;
 import xyz.imcodist.ui.components.QuickMenuButton;
@@ -211,28 +209,8 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
             return;
         }
 
-        // Run the buttons action.
-        data.actions.forEach((action) -> {
-            if (action instanceof CommandActionData commandAction) {
-                // Make sure the command can be run on the player.
-                if (client == null) return;
-
-                ClientPlayerEntity player = client.player;
-                if (player == null) return;
-
-                // Run the command.
-                String commandToRun = commandAction.command;
-
-                if (commandToRun != null) {
-                    if (commandToRun.startsWith("/")) {
-                        commandToRun = commandToRun.substring(1);
-                        player.networkHandler.sendChatCommand(commandToRun);
-                    } else {
-                        player.networkHandler.sendChatMessage(commandToRun);
-                    }
-                }
-            }
-        });
+        // Run the buttons actions.
+        data.run();
 
         if (QuickMenu.CONFIG.closeOnAction()) close();
     }

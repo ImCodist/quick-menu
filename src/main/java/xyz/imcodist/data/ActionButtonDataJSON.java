@@ -6,4 +6,5 @@ public class ActionButtonDataJSON {
     public String name;
     public ArrayList<ArrayList<String>> actions;
     public String icon;
+    public ArrayList<Integer> keybind = new ArrayList<>();
 }

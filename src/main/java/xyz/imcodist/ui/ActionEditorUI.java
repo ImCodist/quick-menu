@@ -10,10 +10,12 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 import xyz.imcodist.data.ActionButtonData;
 import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
@@ -34,11 +36,22 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     private ItemPickerUI itemPicker;
 
+    private ButtonComponent keybindButton;
+    private boolean settingKeybind = false;
+    private boolean boundKeybind = false;
+    private ArrayList<Integer> keybind = new ArrayList<>();
+
     public BaseOwoScreen<FlowLayout> previousScreen;
 
     public ActionEditorUI(ActionButtonData action) {
         if (action != null) {
             actionButtonData = action;
+
+            actionArray = new ArrayList<>(actionButtonData.actions);
+
+            keybind = actionButtonData.keybind;
+            if (keybind.size() >= 3) boundKeybind = true;
+
             newAction = false;
         }
     }
@@ -108,8 +121,28 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         propertiesLayout.child(iconProperty);
 
         // Actions
-        actionArray = new ArrayList<>(actionButtonData.actions);
         createActions(propertiesLayout);
+
+        // Advanced Options
+        FlowLayout advancedLayout = Containers.collapsible(Sizing.fill(100), Sizing.content(), Text.translatable("menu.editor.advanced"), false);
+        advancedLayout
+                .padding(Insets.of(4, 0, -5, 5))
+                .verticalAlignment(VerticalAlignment.CENTER);
+
+        FlowLayout keybindProperty = createNewProperty("keybind", false);
+        keybindProperty.padding(keybindProperty.padding().get().add(0, 6, 0, 0));
+        advancedLayout.child(keybindProperty);
+
+        keybindButton = Components.button(Text.translatable("menu.editor.not_bound"), (buttonComponent) -> {
+            settingKeybind = true;
+            updateKeybindButton();
+        });
+        keybindButton.horizontalSizing(Sizing.fixed(80));
+        keybindProperty.child(keybindButton);
+
+        updateKeybindButton();
+
+        propertiesLayout.child(advancedLayout);
 
         // Set up the editor buttons.
         FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content());
@@ -127,6 +160,9 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             actionButtonData.actions = actionArray;
             updateActionData();
+
+            if (!boundKeybind) keybind.clear();
+            actionButtonData.keybind = keybind;
 
             // Add or save the current action button.
             if (newAction) ActionButtonDataHandler.add(actionButtonData);
@@ -183,7 +219,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         if (actionsLayout != null) actionsLayout.remove();
 
         actionsLayout = createActionsLayout();
-        layout.child(actionsLayout);
+        layout.child(2, actionsLayout);
 
         // Create each action in a list.
         AtomicInteger i = new AtomicInteger();
@@ -262,6 +298,44 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             i.addAndGet(1);
         });
+    }
+
+    public void updateKeybindButton() {
+        String message;
+
+        if (!boundKeybind) message = "Not Bound";
+        else message = InputUtil.fromKeyCode(keybind.get(0), keybind.get(1)).getLocalizedText().getString();
+
+        if (settingKeybind) message = "> " + message + " <";
+
+        keybindButton.setMessage(Text.of(message));
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        boolean wasEscape = false;
+
+        if (settingKeybind) {
+            if (keyCode != GLFW.GLFW_KEY_ESCAPE) {
+                boundKeybind = true;
+
+                keybind.clear();
+
+                keybind.add(keyCode);
+                keybind.add(scanCode);
+
+                keybind.add(modifiers);
+            } else {
+                boundKeybind = false;
+                wasEscape = true;
+            }
+
+            settingKeybind = false;
+            updateKeybindButton();
+        }
+
+        if (!wasEscape) return super.keyPressed(keyCode, scanCode, modifiers);
+        else return false;
     }
 
     @Override
