@@ -1,4 +1,4 @@
-package xyz.imcodist.ui;
+package xyz.imcodist.ui.popups;
 
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ItemPickerUI extends OverlayContainer<FlowLayout> {
-    ItemStack selectedItem;
+    public ItemStack selectedItem;
     public Consumer<ItemStack> onSelectedItem;
 
-    protected ItemPickerUI() {
+    public ItemPickerUI() {
         super(Containers.verticalFlow(Sizing.fill(100), Sizing.fill(100)));
         FlowLayout rootComponent = child;
 
