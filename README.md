@@ -1,5 +1,6 @@
  ![banner](https://github.com/ImCodist/quick-menu/assets/50346006/9caa6fb8-4bbd-4aef-bb28-ceb161deeba6)
-![Version](https://img.shields.io/github/v/release/ImCodist/quick-menu?style=flat-square) ![Downloads](https://img.shields.io/github/downloads/ImCodist/quick-menu/total?style=flat-square) ![License](https://img.shields.io/github/license/ImCodist/quick-menu?style=flat-square)
+![Version](https://img.shields.io/github/v/release/ImCodist/quick-menu?style=flat-square) ![Downloads](https://img.shields.io/github/downloads/ImCodist/quick-menu/total?style=flat-square) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/imcodist/quick-menu/build.yml?style=flat-square)
+![License](https://img.shields.io/github/license/ImCodist/quick-menu?style=flat-square)
 
 # quick-menu
 **Quick Menu** is a **client-side** mod for Minecraft that adds a **configurable easy-to-access menu** that runs **basic repetitive commands**.<br>
