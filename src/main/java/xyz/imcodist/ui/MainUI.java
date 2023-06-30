@@ -186,7 +186,6 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         // Create the button.
         QuickMenuButton button = new QuickMenuButton(data.icon, (buttonComponent) -> {
             // On left click.
-            if (QuickMenu.CONFIG.closeOnKeyReleased()) return;
             pressButton(data);
         }, (quickMenuButton) -> {
             // On right click.

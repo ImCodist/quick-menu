@@ -11,6 +11,8 @@ import xyz.imcodist.ui.MainUI;
 public class QuickMenu implements ModInitializer {
     public static final ModConfig CONFIG = ModConfig.createAndLoad();
 
+    private static boolean menuKeyPressed = false;
+
     @Override
     public void onInitialize() {
         // Initialize the mods keybinds and data handler.
@@ -20,8 +22,13 @@ public class QuickMenu implements ModInitializer {
         // On the end of each tick check to see if a keybind has been pressed.
         ClientTickEvents.END_CLIENT_TICK.register((client) -> {
             // Check for menu open keybind.
-            while (ModKeybindings.menuOpenKeybinding.wasPressed()) {
-                client.setScreen(new MainUI());
+            if (ModKeybindings.menuOpenKeybinding.isPressed()) {
+                if (!menuKeyPressed) {
+                    client.setScreen(new MainUI());
+                }
+                menuKeyPressed = true;
+            } else if (client.currentScreen == null) {
+                menuKeyPressed = false;
             }
 
             // Check for action buttons keybinds.
