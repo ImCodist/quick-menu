@@ -238,6 +238,32 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         return clone;
     }
 
+    private void closeOnKeybindRelease(int mouseButton) {
+        closeOnKeybindRelease(true, mouseButton, 0);
+    }
+
+    private void closeOnKeybindRelease(int keyCode, int scanCode) {
+        closeOnKeybindRelease(false, keyCode, scanCode);
+    }
+
+    private void closeOnKeybindRelease(boolean mouse, int button, int button2) {
+        if (editMode) return;
+        if (!QuickMenu.CONFIG.closeOnKeyReleased()) return;
+
+        // Make sure the keybind is correct.
+        if (
+                (mouse && ModKeybindings.menuOpenKeybinding.matchesMouse(button))
+                || (!mouse && ModKeybindings.menuOpenKeybinding.matchesKey(button, button2))
+        ) {
+            if (hoveredData != null) {
+                // Press the current button.
+                pressButton(hoveredData);
+            }
+
+            close();
+        }
+    }
+
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_E) {
@@ -250,20 +276,14 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        // If the menu should close on key release.
-        if (QuickMenu.CONFIG.closeOnKeyReleased()) {
-            // Make sure the keybind is correct.
-            if (ModKeybindings.menuOpenKeybinding.matchesKey(keyCode, scanCode) && !editMode) {
-                if (hoveredData != null) {
-                    // Press the current button.
-                    pressButton(hoveredData);
-                }
-
-                close();
-            }
-        }
-
+        closeOnKeybindRelease(keyCode, scanCode);
         return super.keyReleased(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        closeOnKeybindRelease(button);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
