@@ -1,5 +1,5 @@
  ![banner](https://github.com/ImCodist/quick-menu/assets/50346006/9caa6fb8-4bbd-4aef-bb28-ceb161deeba6)
-![Version](https://img.shields.io/github/v/release/ImCodist/quick-menu?style=flat-square) ![Downloads](https://img.shields.io/github/downloads/ImCodist/quick-menu/total?style=flat-square) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/imcodist/quick-menu/build.yml?style=flat-square)
+![Version](https://img.shields.io/github/v/release/ImCodist/quick-menu?style=flat-square) ![Downloads](https://img.shields.io/github/downloads/ImCodist/quick-menu/total?style=flat-square) [![wakatime](https://wakatime.com/badge/user/66a17a4d-fd33-4271-9faf-2a533d3d618e/project/127da8c1-1e08-48a6-9300-2a81b3b6a805.svg?style=flat-square)](https://wakatime.com/badge/user/66a17a4d-fd33-4271-9faf-2a533d3d618e/project/127da8c1-1e08-48a6-9300-2a81b3b6a805) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/imcodist/quick-menu/build.yml?style=flat-square)
 ![License](https://img.shields.io/github/license/ImCodist/quick-menu?style=flat-square)
 
 # quick-menu
