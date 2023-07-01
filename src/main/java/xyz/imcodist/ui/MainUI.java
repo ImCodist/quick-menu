@@ -204,7 +204,10 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         if (QuickMenu.CONFIG.showActionsInTooltip()) {
             // If the tooltip should contain the actions the button should run.
             data.actions.forEach(
-                    (actionData) -> actionsText.append("\n").append(actionData.getString())
+                    (actionData) -> {
+                        if (actionData == null) return;
+                        actionsText.append("\n").append(actionData.getString());
+                    }
             );
         }
 

@@ -1,5 +1,7 @@
 package xyz.imcodist.data.command_actions;
 
+import net.minecraft.text.Text;
+
 public class KeybindActionData extends BaseActionData {
     public String keybindTranslationKey = "";
 
@@ -14,6 +16,6 @@ public class KeybindActionData extends BaseActionData {
 
     @Override
     public String getString() {
-        return keybindTranslationKey;
+        return Text.translatable(keybindTranslationKey).getString();
     }
 }

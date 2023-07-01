@@ -10,6 +10,8 @@ import net.minecraft.util.Identifier;
 import xyz.imcodist.QuickMenu;
 import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
+import xyz.imcodist.data.command_actions.KeybindActionData;
+import xyz.imcodist.other.KeybindHandler;
 import xyz.imcodist.other.ModConfigModel;
 
 import java.util.ArrayList;
@@ -96,16 +98,15 @@ public class ActionButtonData {
             }
         }
 
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null) return;
+
+        ClientPlayerEntity player = client.player;
+        if (player == null) return;
+
         // Run the buttons action.
         actions.forEach((action) -> {
             if (action instanceof CommandActionData commandAction) {
-                // Make sure the command can be run on the player.
-                MinecraftClient client = MinecraftClient.getInstance();
-                if (client == null) return;
-
-                ClientPlayerEntity player = client.player;
-                if (player == null) return;
-
                 // Run the command.
                 String commandToRun = commandAction.command;
 
@@ -117,6 +118,10 @@ public class ActionButtonData {
                         player.networkHandler.sendChatMessage(commandToRun);
                     }
                 }
+            }
+
+            if (action instanceof KeybindActionData keybindAction) {
+                KeybindHandler.pressKey(keybindAction.keybindTranslationKey);
             }
         });
     }

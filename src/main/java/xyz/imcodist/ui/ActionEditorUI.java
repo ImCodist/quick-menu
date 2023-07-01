@@ -7,6 +7,7 @@ import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.container.OverlayContainer;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
@@ -19,6 +20,7 @@ import org.lwjgl.glfw.GLFW;
 import xyz.imcodist.data.ActionButtonData;
 import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
+import xyz.imcodist.data.command_actions.KeybindActionData;
 import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.popups.ActionPickerUI;
@@ -36,8 +38,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     ArrayList<Component> actionsSource = new ArrayList<>();
     ArrayList<BaseActionData> actionArray = new ArrayList<>();
 
-    private ItemPickerUI itemPicker;
-    private ActionPickerUI actionPicker;
+    private OverlayContainer<FlowLayout> pickerUI;
 
     private ButtonComponent keybindButton;
     private boolean settingKeybind = false;
@@ -111,7 +112,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         QuickMenuButton iconButton = new QuickMenuButton(actionButtonData.icon, (buttonComponent) -> {
             QuickMenuButton quickMenuButton = (QuickMenuButton) buttonComponent;
 
-            itemPicker = new ItemPickerUI();
+            ItemPickerUI itemPicker = new ItemPickerUI();
 
             itemPicker.selectedItem = quickMenuButton.itemIcon;
             quickMenuButton.itemIcon = null;
@@ -119,6 +120,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             itemPicker.onSelectedItem = (item) -> quickMenuButton.itemIcon = item;
 
             rootComponent.child(itemPicker);
+            pickerUI = itemPicker;
         }, (quickMenuButton) -> {});
 
         iconProperty.child(iconButton);
@@ -230,16 +232,28 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         actionArray.forEach((action) -> {
             String name = "ACT";
             if (action instanceof CommandActionData) name = "CMD";
+            else if (action instanceof KeybindActionData) name = "KEY";
 
             FlowLayout property = createNewProperty(name + " #" + (i.get() + 1), false, false);
             Component source = null;
 
-            // If the action is a command add a input textbox.
+            // If the action is a command add an input text box.
             if (action instanceof CommandActionData commandAction) {
                 TextBoxComponent textBoxComponent = Components.textBox(Sizing.fill(57));
 
                 textBoxComponent.setMaxLength(200);
                 textBoxComponent.text(commandAction.command);
+
+                property.child(textBoxComponent);
+                source = textBoxComponent;
+            }
+
+            // If the action is a keybind.
+            if (action instanceof KeybindActionData keybindAction) {
+                TextBoxComponent textBoxComponent = Components.textBox(Sizing.fill(57));
+
+                textBoxComponent.setMaxLength(200);
+                textBoxComponent.text(keybindAction.keybindTranslationKey);
 
                 property.child(textBoxComponent);
                 source = textBoxComponent;
@@ -268,7 +282,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         actionLayout.padding(actionLayout.padding().get().add(0, 6, 0, 0));
 
         ButtonComponent newActionButton = Components.button(Text.literal(" + "), (buttonComponent -> {
-            actionPicker = new ActionPickerUI();
+            ActionPickerUI actionPicker = new ActionPickerUI();
 
             actionPicker.onSelectedAction = (action) -> {
                 actionArray.add(action);
@@ -276,7 +290,9 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             };
 
             FlowLayout rootComponent = (FlowLayout) layout.root();
+
             rootComponent.child(actionPicker);
+            pickerUI = actionPicker;
         }));
 
         actionLayout.child(newActionButton);
@@ -305,6 +321,11 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             if (action instanceof CommandActionData commandAction) {
                 TextBoxComponent textBoxSource = (TextBoxComponent) source;
                 commandAction.command = textBoxSource.getText();
+            }
+
+            if (action instanceof KeybindActionData keybindAction) {
+                TextBoxComponent textBoxSource = (TextBoxComponent) source;
+                keybindAction.keybindTranslationKey = textBoxSource.getText();
             }
 
             i.addAndGet(1);
@@ -394,10 +415,10 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public void close() {
-        if (itemPicker != null && itemPicker.parent() != null) {
+        if (pickerUI != null && pickerUI.parent() != null) {
             // Close the item picker before closing the editor ui.
-            itemPicker.remove();
-            itemPicker = null;
+            pickerUI.remove();
+            pickerUI = null;
             return;
         }
 
