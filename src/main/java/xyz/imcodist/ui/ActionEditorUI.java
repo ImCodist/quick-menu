@@ -21,6 +21,7 @@ import xyz.imcodist.data.command_actions.BaseActionData;
 import xyz.imcodist.data.command_actions.CommandActionData;
 import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
+import xyz.imcodist.ui.popups.ActionPickerUI;
 import xyz.imcodist.ui.popups.ItemPickerUI;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
@@ -36,6 +37,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     ArrayList<BaseActionData> actionArray = new ArrayList<>();
 
     private ItemPickerUI itemPicker;
+    private ActionPickerUI actionPicker;
 
     private ButtonComponent keybindButton;
     private boolean settingKeybind = false;
@@ -73,6 +75,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         int mainLayoutHeight = 206;
         FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(210), Sizing.fixed(mainLayoutHeight));
         mainLayout.surface(new SwitcherSurface());
+        mainLayout.zIndex(-200);
         rootComponent.child(mainLayout);
 
         // Set up the header.
@@ -265,8 +268,15 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         actionLayout.padding(actionLayout.padding().get().add(0, 6, 0, 0));
 
         ButtonComponent newActionButton = Components.button(Text.literal(" + "), (buttonComponent -> {
-            actionArray.add(new CommandActionData());
-            createActions((FlowLayout) actionsLayout.parent());
+            actionPicker = new ActionPickerUI();
+
+            actionPicker.onSelectedAction = (action) -> {
+                actionArray.add(action);
+                createActions((FlowLayout) actionsLayout.parent());
+            };
+
+            FlowLayout rootComponent = (FlowLayout) layout.root();
+            rootComponent.child(actionPicker);
         }));
 
         actionLayout.child(newActionButton);

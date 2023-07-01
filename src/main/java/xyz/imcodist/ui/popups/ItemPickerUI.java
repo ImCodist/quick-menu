@@ -31,8 +31,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         // Setup root.
         rootComponent
                 .horizontalAlignment(HorizontalAlignment.CENTER)
-                .verticalAlignment(VerticalAlignment.CENTER)
-                .zIndex(20);
+                .verticalAlignment(VerticalAlignment.CENTER);
 
         // Set up the main layout.
         FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(230), Sizing.fixed(210));
