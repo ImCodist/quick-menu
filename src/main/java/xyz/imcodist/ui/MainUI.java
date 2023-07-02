@@ -70,16 +70,18 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         headerLayout.child(headerLabel);
 
         // Header edit button.
-        ButtonComponent headerEditButton = Components.button(Text.literal("✎"), (buttonComponent) -> {
-            editMode = !editMode;
-            updateEditorLayout();
-        });
-        headerEditButton
-                .textShadow(true)
-                .renderer(ButtonComponent.Renderer.flat(0x000000, 0x000000, 0x000000))
-                .margins(Insets.of(0, 0, 5, 0))
-                .horizontalSizing(Sizing.fixed(10));
-        headerLayout.child(headerEditButton);
+        if (!QuickMenu.CONFIG.hideEditIcon()) {
+            ButtonComponent headerEditButton = Components.button(Text.literal("✎"), (buttonComponent) -> {
+                editMode = !editMode;
+                updateEditorLayout();
+            });
+            headerEditButton
+                    .textShadow(true)
+                    .renderer(ButtonComponent.Renderer.flat(0x000000, 0x000000, 0x000000))
+                    .margins(Insets.of(0, 0, 5, 0))
+                    .horizontalSizing(Sizing.fixed(10));
+            headerLayout.child(headerEditButton);
+        }
 
         // Setup action layouts.
         FlowLayout actionFlowLayout = Containers.verticalFlow(Sizing.fill(100), Sizing.content());

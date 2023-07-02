@@ -20,6 +20,8 @@ public class ModConfigModel {
 
     public boolean closeOnKeyReleased = false;
 
+    public boolean hideEditIcon = false;
+
     @SectionHeader("action_buttons")
     public boolean closeOnAction = true;
     public boolean showActionsInTooltip = true;
