@@ -25,7 +25,7 @@ The mod is also avaliable to download on [Modrinth](https://modrinth.com/mod/qui
 
 ## How to Use
 **Open the menu** in-game with the **chosen keybind** *(Default: G)*.<br>
-To enter **edit mode** click the pencil icon next to the title.<br>
+To enter **edit mode** click the pencil icon next to the title or press E on the keyboard.<br>
 
 In **edit mode** you can:
 - Create a new action using the button below the main menu.
