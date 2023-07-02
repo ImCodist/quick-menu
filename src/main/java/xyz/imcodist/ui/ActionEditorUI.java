@@ -25,6 +25,7 @@ import xyz.imcodist.other.ActionButtonDataHandler;
 import xyz.imcodist.ui.components.QuickMenuButton;
 import xyz.imcodist.ui.popups.ActionPickerUI;
 import xyz.imcodist.ui.popups.ItemPickerUI;
+import xyz.imcodist.ui.popups.KeybindPickerUI;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
@@ -250,13 +251,22 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             // If the action is a keybind.
             if (action instanceof KeybindActionData keybindAction) {
-                TextBoxComponent textBoxComponent = Components.textBox(Sizing.fill(57));
+                ButtonComponent keybindActionButton = Components.button(Text.translatable("menu.editor.not_bound"), (buttonComponent) -> {
+                    KeybindPickerUI keybindPicker = new KeybindPickerUI();
+                    keybindPicker.onSelectedKeybind = (item) -> {
+                        keybindAction.keybindTranslationKey = item.getTranslationKey();
+                        updateActionKeybindMessage(buttonComponent, keybindAction);
+                    };
 
-                textBoxComponent.setMaxLength(200);
-                textBoxComponent.text(keybindAction.keybindTranslationKey);
+                    FlowLayout rootComponent = (FlowLayout) layout.root();
+                    rootComponent.child(keybindPicker);
 
-                property.child(textBoxComponent);
-                source = textBoxComponent;
+                    pickerUI = keybindPicker;
+                });
+                keybindActionButton.horizontalSizing(Sizing.fill(57));
+
+                updateActionKeybindMessage(keybindActionButton, keybindAction);
+                property.child(keybindActionButton);
             }
 
             // Add the remove button.
@@ -323,11 +333,6 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
                 commandAction.command = textBoxSource.getText();
             }
 
-            if (action instanceof KeybindActionData keybindAction) {
-                TextBoxComponent textBoxSource = (TextBoxComponent) source;
-                keybindAction.keybindTranslationKey = textBoxSource.getText();
-            }
-
             i.addAndGet(1);
         });
     }
@@ -353,6 +358,21 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         if (settingKeybind) message = "> " + message + " <";
         keybindButton.setMessage(Text.of(message));
+    }
+
+    private void updateActionKeybindMessage(ButtonComponent button, KeybindActionData actionData) {
+        if (!actionData.keybindTranslationKey.equals("")) {
+            String textString = Text.translatable(actionData.keybindTranslationKey).getString();
+            int maxLength = 14;
+
+            button.tooltip(Text.literal(""));
+            if (textString.length() > maxLength) {
+                button.tooltip(Text.literal(textString));
+                textString = textString.substring(0, maxLength) + "...";
+            }
+
+            button.setMessage(Text.literal(textString));
+        }
     }
 
     @Override

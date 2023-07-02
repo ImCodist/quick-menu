@@ -55,4 +55,11 @@ public class KeybindHandler {
 
         return null;
     }
+
+    public static KeyBinding[] getKeybindings() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null) return null;
+
+        return client.options.allKeys;
+    }
 }

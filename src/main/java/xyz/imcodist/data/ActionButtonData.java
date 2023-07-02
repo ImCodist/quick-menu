@@ -73,6 +73,11 @@ public class ActionButtonData {
                 commandActionData.command = value;
                 return commandActionData;
             }
+            case "key" -> {
+                KeybindActionData keybindActionData = new KeybindActionData();
+                keybindActionData.keybindTranslationKey = value;
+                return keybindActionData;
+            }
         }
 
         return null;

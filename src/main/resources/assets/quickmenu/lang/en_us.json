@@ -8,6 +8,8 @@
   "menu.main.button.add_action": "Add Action",
   "menu.main.button.config": "Config",
 
+  "menu.action_picker.select": " > ",
+
 
   "menu.editor.title": "Action Editor",
   "menu.editor.button.finish": "Finish",
