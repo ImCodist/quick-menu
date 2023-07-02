@@ -8,7 +8,10 @@ public class BaseActionData {
         return "";
     }
 
+    public String getTypeString() { return "ACT"; }
     public String getString() {
         return "uh oh why are you seeing this";
     }
+
+    public void run() {}
 }

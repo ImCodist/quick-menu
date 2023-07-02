@@ -1,6 +1,7 @@
 package xyz.imcodist.data.command_actions;
 
 import net.minecraft.text.Text;
+import xyz.imcodist.other.KeybindHandler;
 
 public class KeybindActionData extends BaseActionData {
     public String keybindTranslationKey = "";
@@ -15,7 +16,14 @@ public class KeybindActionData extends BaseActionData {
     }
 
     @Override
+    public String getTypeString() { return "KEY"; }
+    @Override
     public String getString() {
         return Text.translatable(keybindTranslationKey).getString();
+    }
+
+    @Override
+    public void run() {
+        KeybindHandler.pressKey(keybindTranslationKey);
     }
 }

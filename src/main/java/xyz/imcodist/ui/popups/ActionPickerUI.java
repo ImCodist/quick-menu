@@ -5,7 +5,6 @@ import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.*;
 import io.wispforest.owo.ui.core.*;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -15,9 +14,7 @@ import xyz.imcodist.data.command_actions.KeybindActionData;
 import xyz.imcodist.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class ActionPickerUI extends OverlayContainer<FlowLayout> {
@@ -35,7 +32,7 @@ public class ActionPickerUI extends OverlayContainer<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         // Set up the main layout.
-        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(180), Sizing.fixed(180));
+        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(180), Sizing.fixed(120));
         mainLayout
                 .surface(new SwitcherSurface())
                 .padding(Insets.of(10));

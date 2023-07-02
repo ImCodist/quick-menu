@@ -231,9 +231,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         // Create each action in a list.
         AtomicInteger i = new AtomicInteger();
         actionArray.forEach((action) -> {
-            String name = "ACT";
-            if (action instanceof CommandActionData) name = "CMD";
-            else if (action instanceof KeybindActionData) name = "KEY";
+            String name = action.getTypeString();
 
             FlowLayout property = createNewProperty(name + " #" + (i.get() + 1), false, false);
             Component source = null;
@@ -367,7 +365,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
             button.tooltip(Text.literal(""));
             if (textString.length() > maxLength) {
-                button.tooltip(Text.literal(textString));
+                //button.tooltip(Text.literal(textString));
                 textString = textString.substring(0, maxLength) + "...";
             }
 

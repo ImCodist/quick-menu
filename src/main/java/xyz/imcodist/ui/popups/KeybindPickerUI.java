@@ -31,7 +31,7 @@ public class KeybindPickerUI extends OverlayContainer<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         // Set up the main layout.
-        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(350), Sizing.fixed(230));
+        FlowLayout mainLayout = Containers.verticalFlow(Sizing.fixed(320), Sizing.fixed(230));
         mainLayout
                 .surface(new SwitcherSurface())
                 .padding(Insets.of(10));
