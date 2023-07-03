@@ -2,8 +2,8 @@ package xyz.imcodist.other;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import xyz.imcodist.mixins.KeyBindingMixin;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class KeybindHandler {
@@ -23,16 +23,13 @@ public class KeybindHandler {
         }
 
         for (KeyBinding keyBinding : queuedKeys) {
-            try {
-                Field field = keyBinding.getClass().getDeclaredField("timesPressed");
-                field.setAccessible(true);
+            KeyBindingMixin keyBindingMixin = (KeyBindingMixin) keyBinding;
 
-                keyBinding.setPressed(true);
-                field.set(keyBinding, 1);
+            keyBindingMixin.setTimesPressed(1);
+            keyBinding.setPressed(true);
 
-                didPress = true;
-                queuedRelease.add(keyBinding);
-            } catch (Exception ignored) {}
+            didPress = true;
+            queuedRelease.add(keyBinding);
         }
 
         queuedKeys.clear();
