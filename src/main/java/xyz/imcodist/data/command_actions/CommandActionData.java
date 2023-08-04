@@ -38,6 +38,9 @@ public class CommandActionData extends BaseActionData {
                 commandToRun = commandToRun.substring(1);
                 player.networkHandler.sendChatCommand(commandToRun);
             } else {
+                if (commandToRun.length() >= 256) {
+                    commandToRun = commandToRun.substring(0, 256);
+                }
                 player.networkHandler.sendChatMessage(commandToRun);
             }
         }

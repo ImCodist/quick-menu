@@ -240,7 +240,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             if (action instanceof CommandActionData commandAction) {
                 TextBoxComponent textBoxComponent = Components.textBox(Sizing.fill(57));
 
-                textBoxComponent.setMaxLength(200);
+                textBoxComponent.setMaxLength(10000);
                 textBoxComponent.text(commandAction.command);
 
                 property.child(textBoxComponent);
