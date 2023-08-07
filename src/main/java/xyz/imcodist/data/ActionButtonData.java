@@ -38,7 +38,11 @@ public class ActionButtonData {
             jsonData.actions.add(actionArray);
         });
 
-        if (icon != null) jsonData.icon = icon.getRegistryEntry().value().toString();
+        if (icon != null) {
+            if (icon.getRegistryEntry().getKey().isPresent()) {
+                jsonData.icon = icon.getRegistryEntry().getKey().get().getValue().toString();
+            }
+        }
 
         return jsonData;
     }
