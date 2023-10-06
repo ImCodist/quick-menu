@@ -18,6 +18,9 @@ public class ModConfigModel {
     @RangeConstraint(min = 60, max = 150*3)
     public int menuHeight = 114;
 
+    @RangeConstraint(min = 1, max = 14)
+    public int buttonsPerRow = 5;
+
     public boolean closeOnKeyReleased = false;
 
     public boolean hideEditIcon = false;

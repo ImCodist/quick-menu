@@ -150,7 +150,7 @@ public class MainUI extends BaseOwoScreen<FlowLayout> {
         double actionsCount = ActionButtonDataHandler.actions.size();
 
         int curAction = 0;
-        double rowSize = 5;
+        double rowSize = QuickMenu.CONFIG.buttonsPerRow();
 
         if (actionsCount > 0) {
             for (int y = 0; y < Math.ceil(actionsCount / rowSize); y++) {
