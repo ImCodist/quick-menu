@@ -36,9 +36,5 @@ jobs:
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v3
         with:
-          path: build/libs/!(*-sources).jar
-      - name: capture build artifacts (sources)
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
-        uses: actions/upload-artifact@v3
-        with:
-          path: build/libs/+(*-sources).jar
+          name: Artifacts
+          path: build/libs/
