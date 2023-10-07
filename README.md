@@ -7,7 +7,6 @@
 It aims to save you time by giving you a place to put all the commands you may need for a given context.
 
 The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding library and [Fabric API](https://modrinth.com/mod/fabric-api).<br>
-It is also recommended to have [Mod Menu](https://modrinth.com/mod/modmenu) installed to access the mods config.
 
 ## Download
 You can download the **latest version** in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
