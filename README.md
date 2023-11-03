@@ -10,7 +10,7 @@ The mod requires the [owo-lib](https://github.com/wisp-forest/owo-lib) modding l
 
 ## Download
 You can download the **latest version** in the [Releases](https://github.com/ImCodist/quick-menu/releases) of this repo.<br>
-The mod is also avaliable to download on [Modrinth](https://modrinth.com/mod/quick-menu) and [CurseForge](https://www.curseforge.com/minecraft/mc-mods/quick-menu).
+The mod is also avaliable to download on [Modrinth](https://modrinth.com/mod/quick-menu).
 
 ## Features
 <p align="center">
