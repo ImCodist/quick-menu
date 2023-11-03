@@ -21,6 +21,7 @@
   "menu.editor.property.name": "Name",
   "menu.editor.property.icon": "Icon",
   "menu.editor.property.keybind": "Keybind",
+  "menu.editor.property.custommodeldata": "Custom Model Data",
   "menu.editor.property.new_action": "New Action",
 
 
