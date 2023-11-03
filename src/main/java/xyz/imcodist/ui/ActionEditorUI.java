@@ -1,5 +1,6 @@
 package xyz.imcodist.ui;
 
+import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -12,6 +13,8 @@ import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -41,6 +44,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     private OverlayContainer<FlowLayout> pickerUI;
 
+    private TextBoxComponent customModelDataTextBox;
     private ButtonComponent keybindButton;
     private boolean settingKeybind = false;
     private boolean boundKeybind = false;
@@ -114,11 +118,15 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             QuickMenuButton quickMenuButton = (QuickMenuButton) buttonComponent;
 
             ItemPickerUI itemPicker = new ItemPickerUI();
-
             itemPicker.selectedItem = quickMenuButton.itemIcon;
+            itemPicker.customModelData = getCustomModelData(quickMenuButton.itemIcon);
+
             quickMenuButton.itemIcon = null;
 
-            itemPicker.onSelectedItem = (item) -> quickMenuButton.itemIcon = item;
+            itemPicker.onSelectedItem = (item) -> {
+                quickMenuButton.itemIcon = item;
+                updateCustomModelData(quickMenuButton.itemIcon);
+            };
 
             rootComponent.child(itemPicker);
             pickerUI = itemPicker;
@@ -137,7 +145,6 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         FlowLayout keybindProperty = createNewProperty("keybind", false);
-        keybindProperty.padding(keybindProperty.padding().get().add(0, 6, 0, 0));
         advancedLayout.child(keybindProperty);
 
         keybindButton = Components.button(Text.translatable("menu.editor.not_bound"), (buttonComponent) -> {
@@ -149,7 +156,26 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         updateKeybindButton();
 
+        FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
+        advancedLayout.child(customModelDataProperty);
+
+        Integer customModelData = getCustomModelData(iconButton.itemIcon);
+        String cmdText = customModelData != null ? customModelData.toString() : "";
+
+        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
+        customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
+
+        customModelDataTextBox.onChanged().subscribe((text) -> {
+            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
+            updateCustomModelData(iconButton.itemIcon);
+        });
+
+        customModelDataProperty.child(customModelDataTextBox);
+
         propertiesLayout.child(advancedLayout);
+
+        // Add padding to the last property in the advanced layout.
+        customModelDataProperty.padding(customModelDataProperty.padding().get().add(0, 6, 0, 0));
 
         // Set up the editor buttons.
         FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content());
@@ -186,6 +212,32 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         buttonsLayout.child(finishButton);
         buttonsLayout.gap(4);
         buttonsLayout.child(cancelButton);
+    }
+
+    private Integer getCustomModelData(ItemStack item) {
+        Integer existingCustomModelData = null;
+        if (item != null) {
+            existingCustomModelData = item.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
+        }
+
+        return existingCustomModelData;
+    }
+
+    private void updateCustomModelData(ItemStack itemStack) {
+        // updates the items custom model data to that of the users input.
+        String text = customModelDataTextBox.getText();
+
+        if (itemStack == null) return;
+
+        try {
+            NbtCompound nbt = itemStack.getOrCreateNbt();
+
+            if (!text.equals("")) {
+                nbt.putInt("CustomModelData", Integer.parseInt(text));
+            } else {
+                nbt.remove("CustomModelData");
+            }
+        } catch (NumberFormatException ignored) {}
     }
 
     public FlowLayout createNewProperty(String name) {

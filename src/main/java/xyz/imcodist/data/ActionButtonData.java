@@ -1,8 +1,10 @@
 package xyz.imcodist.data;
 
+import io.wispforest.owo.nbt.NbtKey;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -42,6 +44,8 @@ public class ActionButtonData {
             if (icon.getRegistryEntry().getKey().isPresent()) {
                 jsonData.icon = icon.getRegistryEntry().getKey().get().getValue().toString();
             }
+
+            jsonData.customModelData = icon.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
         }
 
         return jsonData;
@@ -60,7 +64,14 @@ public class ActionButtonData {
             data.actions.add(actionData);
         });
 
-        if (json.icon != null) data.icon = new ItemStack(Registries.ITEM.get(new Identifier(json.icon)));
+        if (json.icon != null) {
+            data.icon = new ItemStack(Registries.ITEM.get(new Identifier(json.icon)));
+
+            try {
+                NbtCompound nbt = data.icon.getOrCreateNbt();
+                nbt.putInt("CustomModelData", json.customModelData);
+            } catch (NumberFormatException ignored) {}
+        }
 
         return data;
     }
