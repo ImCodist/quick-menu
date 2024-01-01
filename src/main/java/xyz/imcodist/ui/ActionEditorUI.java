@@ -220,7 +220,6 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             if (item.getNbt() != null) {
                 NbtElement nbtElement = item.getNbt().get("CustomModelData");
                 if (nbtElement != null) {
-                    System.out.println(nbtElement);
                     existingCustomModelData = Integer.parseInt(nbtElement.toString());
                 }
             }
