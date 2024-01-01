@@ -1,6 +1,5 @@
 package xyz.imcodist.ui;
 
-import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -15,6 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -217,7 +217,15 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     private Integer getCustomModelData(ItemStack item) {
         Integer existingCustomModelData = null;
         if (item != null) {
-            existingCustomModelData = item.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
+            if (item.getNbt() != null) {
+                NbtElement nbtElement = item.getNbt().get("CustomModelData");
+                if (nbtElement != null) {
+                    System.out.println(nbtElement);
+                    existingCustomModelData = Integer.parseInt(nbtElement.toString());
+                }
+            }
+
+            //existingCustomModelData = item.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
         }
 
         return existingCustomModelData;

@@ -1,10 +1,10 @@
 package xyz.imcodist.data;
 
-import io.wispforest.owo.nbt.NbtKey;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -45,7 +45,14 @@ public class ActionButtonData {
                 jsonData.icon = icon.getRegistryEntry().getKey().get().getValue().toString();
             }
 
-            jsonData.customModelData = icon.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
+            if (icon.getNbt() != null) {
+                NbtElement nbtElement = icon.getNbt().get("CustomModelData");
+                if (nbtElement != null) {
+                    jsonData.customModelData = Integer.parseInt(nbtElement.toString());
+                }
+            }
+
+            //jsonData.customModelData = icon.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
         }
 
         return jsonData;
