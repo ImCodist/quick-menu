@@ -103,10 +103,10 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 ItemStack item = items.get(curItem).getDefaultStack();
 
                 if (customModelData != null) {
-                    try {
-                        NbtCompound nbt = item.getOrCreateNbt();
-                        nbt.putInt("CustomModelData", customModelData);
-                    } catch (NumberFormatException ignored) {}
+//                    try {
+//                        NbtCompound nbt = item.getOrCreateNbt();
+//                        nbt.putInt("CustomModelData", customModelData);
+//                    } catch (NumberFormatException ignored) {}
                 }
 
                 ButtonComponent button = new QuickMenuButton(item, (buttonComponent) -> {

@@ -156,26 +156,27 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         updateKeybindButton();
 
-        FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
-        advancedLayout.child(customModelDataProperty);
-
-        Integer customModelData = getCustomModelData(iconButton.itemIcon);
-        String cmdText = customModelData != null ? customModelData.toString() : "";
-
-        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
-        customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
-
-        customModelDataTextBox.onChanged().subscribe((text) -> {
-            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
-            updateCustomModelData(iconButton.itemIcon);
-        });
-
-        customModelDataProperty.child(customModelDataTextBox);
+        // REMOVE CUSTOM MODEL DATA TEMP
+//        FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
+//        advancedLayout.child(customModelDataProperty);
+//
+//        Integer customModelData = getCustomModelData(iconButton.itemIcon);
+//        String cmdText = customModelData != null ? customModelData.toString() : "";
+//
+//        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
+//        customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
+//
+//        customModelDataTextBox.onChanged().subscribe((text) -> {
+//            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
+//            updateCustomModelData(iconButton.itemIcon);
+//        });
+//
+//        customModelDataProperty.child(customModelDataTextBox);
 
         propertiesLayout.child(advancedLayout);
 
         // Add padding to the last property in the advanced layout.
-        customModelDataProperty.padding(customModelDataProperty.padding().get().add(0, 6, 0, 0));
+//        customModelDataProperty.padding(customModelDataProperty.padding().get().add(0, 6, 0, 0));
 
         // Set up the editor buttons.
         FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content());
@@ -217,13 +218,13 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     private Integer getCustomModelData(ItemStack item) {
         Integer existingCustomModelData = null;
         if (item != null) {
-            if (item.getNbt() != null) {
-                NbtElement nbtElement = item.getNbt().get("CustomModelData");
-                if (nbtElement != null) {
-                    existingCustomModelData = Integer.parseInt(nbtElement.toString());
-                    if (existingCustomModelData == 0) existingCustomModelData = null;
-                }
-            }
+//            if (item.getNbt() != null) {
+//                NbtElement nbtElement = item.getNbt().get("CustomModelData");
+//                if (nbtElement != null) {
+//                    existingCustomModelData = Integer.parseInt(nbtElement.toString());
+//                    if (existingCustomModelData == 0) existingCustomModelData = null;
+//                }
+//            }
 
             //existingCustomModelData = item.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
         }
@@ -237,15 +238,15 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         if (itemStack == null) return;
 
-        try {
-            NbtCompound nbt = itemStack.getOrCreateNbt();
-
-            if (!text.equals("")) {
-                nbt.putInt("CustomModelData", Integer.parseInt(text));
-            } else {
-                nbt.remove("CustomModelData");
-            }
-        } catch (NumberFormatException ignored) {}
+//        try {
+//            NbtCompound nbt = itemStack.getOrCreateNbt();
+//
+//            if (!text.equals("")) {
+//                nbt.putInt("CustomModelData", Integer.parseInt(text));
+//            } else {
+//                nbt.remove("CustomModelData");
+//            }
+//        } catch (NumberFormatException ignored) {}
     }
 
     public FlowLayout createNewProperty(String name) {

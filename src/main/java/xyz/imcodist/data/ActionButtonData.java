@@ -45,12 +45,12 @@ public class ActionButtonData {
                 jsonData.icon = icon.getRegistryEntry().getKey().get().getValue().toString();
             }
 
-            if (icon.getNbt() != null) {
-                NbtElement nbtElement = icon.getNbt().get("CustomModelData");
-                if (nbtElement != null) {
-                    jsonData.customModelData = Integer.parseInt(nbtElement.toString());
-                }
-            }
+//            if (icon.getNbt() != null) {
+//                NbtElement nbtElement = icon.getNbt().get("CustomModelData");
+//                if (nbtElement != null) {
+//                    jsonData.customModelData = Integer.parseInt(nbtElement.toString());
+//                }
+//            }
 
             //jsonData.customModelData = icon.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
         }
@@ -74,10 +74,10 @@ public class ActionButtonData {
         if (json.icon != null) {
             data.icon = new ItemStack(Registries.ITEM.get(new Identifier(json.icon)));
 
-            try {
-                NbtCompound nbt = data.icon.getOrCreateNbt();
-                nbt.putInt("CustomModelData", json.customModelData);
-            } catch (NumberFormatException ignored) {}
+//            try {
+//                NbtCompound nbt = data.icon.getOrCreateNbt();
+//                nbt.putInt("CustomModelData", json.customModelData);
+//            } catch (NumberFormatException ignored) {}
         }
 
         return data;
