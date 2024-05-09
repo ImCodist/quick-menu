@@ -12,9 +12,9 @@ import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -156,27 +156,26 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         updateKeybindButton();
 
-        // REMOVE CUSTOM MODEL DATA TEMP
-//        FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
-//        advancedLayout.child(customModelDataProperty);
-//
-//        Integer customModelData = getCustomModelData(iconButton.itemIcon);
-//        String cmdText = customModelData != null ? customModelData.toString() : "";
-//
-//        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
-//        customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
-//
-//        customModelDataTextBox.onChanged().subscribe((text) -> {
-//            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
-//            updateCustomModelData(iconButton.itemIcon);
-//        });
-//
-//        customModelDataProperty.child(customModelDataTextBox);
+        FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
+        advancedLayout.child(customModelDataProperty);
+
+        Integer customModelData = getCustomModelData(iconButton.itemIcon);
+        String cmdText = customModelData != 0 ? customModelData.toString() : "";
+
+        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
+        customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
+
+        customModelDataTextBox.onChanged().subscribe((text) -> {
+            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
+            updateCustomModelData(iconButton.itemIcon);
+        });
+
+        customModelDataProperty.child(customModelDataTextBox);
 
         propertiesLayout.child(advancedLayout);
 
         // Add padding to the last property in the advanced layout.
-//        customModelDataProperty.padding(customModelDataProperty.padding().get().add(0, 6, 0, 0));
+        customModelDataProperty.padding(customModelDataProperty.padding().get().add(0, 6, 0, 0));
 
         // Set up the editor buttons.
         FlowLayout buttonsLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content());
@@ -216,20 +215,8 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     }
 
     private Integer getCustomModelData(ItemStack item) {
-        Integer existingCustomModelData = null;
-        if (item != null) {
-//            if (item.getNbt() != null) {
-//                NbtElement nbtElement = item.getNbt().get("CustomModelData");
-//                if (nbtElement != null) {
-//                    existingCustomModelData = Integer.parseInt(nbtElement.toString());
-//                    if (existingCustomModelData == 0) existingCustomModelData = null;
-//                }
-//            }
-
-            //existingCustomModelData = item.getOr(new NbtKey<>("CustomModelData", NbtKey.Type.INT), null);
-        }
-
-        return existingCustomModelData;
+        if (item == null) return CustomModelDataComponent.DEFAULT.value();
+        return item.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT).value();
     }
 
     private void updateCustomModelData(ItemStack itemStack) {
@@ -238,15 +225,13 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         if (itemStack == null) return;
 
-//        try {
-//            NbtCompound nbt = itemStack.getOrCreateNbt();
-//
-//            if (!text.equals("")) {
-//                nbt.putInt("CustomModelData", Integer.parseInt(text));
-//            } else {
-//                nbt.remove("CustomModelData");
-//            }
-//        } catch (NumberFormatException ignored) {}
+        try {
+            if (!text.equals("")) {
+                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(Integer.parseInt(text)));
+            } else {
+                itemStack.remove(DataComponentTypes.CUSTOM_MODEL_DATA);
+            }
+        } catch (NumberFormatException ignored) {}
     }
 
     public FlowLayout createNewProperty(String name) {

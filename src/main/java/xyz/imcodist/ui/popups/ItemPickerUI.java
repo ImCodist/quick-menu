@@ -9,9 +9,10 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.OverlayContainer;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import xyz.imcodist.ui.components.QuickMenuButton;
@@ -103,10 +104,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 ItemStack item = items.get(curItem).getDefaultStack();
 
                 if (customModelData != null) {
-//                    try {
-//                        NbtCompound nbt = item.getOrCreateNbt();
-//                        nbt.putInt("CustomModelData", customModelData);
-//                    } catch (NumberFormatException ignored) {}
+                    item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(customModelData));
                 }
 
                 ButtonComponent button = new QuickMenuButton(item, (buttonComponent) -> {
