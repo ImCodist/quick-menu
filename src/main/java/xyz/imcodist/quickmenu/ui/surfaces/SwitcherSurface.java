@@ -1,4 +1,4 @@
-package xyz.imcodist.ui.surfaces;
+package xyz.imcodist.quickmenu.ui.surfaces;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;

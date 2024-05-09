@@ -1,4 +1,4 @@
-package xyz.imcodist.data.command_actions;
+package xyz.imcodist.quickmenu.data.command_actions;
 
 public class BaseActionData {
     public String getJsonType() {

@@ -1,4 +1,4 @@
-package xyz.imcodist.ui.components;
+package xyz.imcodist.quickmenu.ui.components;
 
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;

@@ -1,13 +1,13 @@
-package xyz.imcodist;
+package xyz.imcodist.quickmenu;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.util.InputUtil;
-import xyz.imcodist.other.ActionButtonDataHandler;
-import xyz.imcodist.other.KeybindHandler;
-import xyz.imcodist.other.ModConfig;
-import xyz.imcodist.other.ModKeybindings;
-import xyz.imcodist.ui.MainUI;
+import xyz.imcodist.quickmenu.other.ActionButtonDataHandler;
+import xyz.imcodist.quickmenu.other.KeybindHandler;
+import xyz.imcodist.quickmenu.other.ModConfig;
+import xyz.imcodist.quickmenu.other.ModKeybindings;
+import xyz.imcodist.quickmenu.ui.MainUI;
 
 public class QuickMenu implements ModInitializer {
     public static final ModConfig CONFIG = ModConfig.createAndLoad();

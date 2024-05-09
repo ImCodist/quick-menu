@@ -1,4 +1,4 @@
-package xyz.imcodist.data;
+package xyz.imcodist.quickmenu.data;
 
 import java.util.ArrayList;
 

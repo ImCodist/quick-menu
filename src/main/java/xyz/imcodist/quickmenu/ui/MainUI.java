@@ -1,4 +1,4 @@
-package xyz.imcodist.ui;
+package xyz.imcodist.quickmenu.ui;
 
 import io.wispforest.owo.config.ui.ConfigScreen;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
@@ -15,12 +15,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
-import xyz.imcodist.QuickMenu;
-import xyz.imcodist.data.ActionButtonData;
-import xyz.imcodist.other.ActionButtonDataHandler;
-import xyz.imcodist.other.ModKeybindings;
-import xyz.imcodist.ui.components.QuickMenuButton;
-import xyz.imcodist.ui.surfaces.SwitcherSurface;
+import xyz.imcodist.quickmenu.QuickMenu;
+import xyz.imcodist.quickmenu.data.ActionButtonData;
+import xyz.imcodist.quickmenu.other.ActionButtonDataHandler;
+import xyz.imcodist.quickmenu.other.ModKeybindings;
+import xyz.imcodist.quickmenu.ui.components.QuickMenuButton;
+import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
 public class MainUI extends BaseOwoScreen<FlowLayout> {
     public boolean editMode = false;

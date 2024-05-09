@@ -1,4 +1,4 @@
-package xyz.imcodist.ui.popups;
+package xyz.imcodist.quickmenu.ui.popups;
 
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -10,8 +10,8 @@ import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
-import xyz.imcodist.other.KeybindHandler;
-import xyz.imcodist.ui.surfaces.SwitcherSurface;
+import xyz.imcodist.quickmenu.other.KeybindHandler;
+import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package xyz.imcodist.ui.popups;
+package xyz.imcodist.quickmenu.ui.popups;
 
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -15,8 +15,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import xyz.imcodist.ui.components.QuickMenuButton;
-import xyz.imcodist.ui.surfaces.SwitcherSurface;
+import xyz.imcodist.quickmenu.ui.components.QuickMenuButton;
+import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
 import java.util.List;

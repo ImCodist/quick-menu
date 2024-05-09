@@ -22,7 +22,7 @@
 	"environment": "client",
 	"entrypoints": {
 		"main": [
-			"xyz.imcodist.QuickMenu"
+          "xyz.imcodist.quickmenu.QuickMenu"
 		]
 	},
 	"mixins": [

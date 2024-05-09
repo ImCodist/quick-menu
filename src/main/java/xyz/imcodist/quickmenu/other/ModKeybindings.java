@@ -1,4 +1,4 @@
-package xyz.imcodist.other;
+package xyz.imcodist.quickmenu.other;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;

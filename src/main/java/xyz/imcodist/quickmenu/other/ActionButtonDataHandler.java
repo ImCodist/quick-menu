@@ -1,10 +1,10 @@
-package xyz.imcodist.other;
+package xyz.imcodist.quickmenu.other;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.fabricmc.loader.api.FabricLoader;
-import xyz.imcodist.data.ActionButtonData;
-import xyz.imcodist.data.ActionButtonDataJSON;
+import xyz.imcodist.quickmenu.data.ActionButtonData;
+import xyz.imcodist.quickmenu.data.ActionButtonDataJSON;
 
 import java.io.*;
 import java.lang.reflect.Type;

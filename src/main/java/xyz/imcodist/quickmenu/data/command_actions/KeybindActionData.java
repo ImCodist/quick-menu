@@ -1,7 +1,7 @@
-package xyz.imcodist.data.command_actions;
+package xyz.imcodist.quickmenu.data.command_actions;
 
 import net.minecraft.text.Text;
-import xyz.imcodist.other.KeybindHandler;
+import xyz.imcodist.quickmenu.other.KeybindHandler;
 
 public class KeybindActionData extends BaseActionData {
     public String keybindTranslationKey = "";

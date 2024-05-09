@@ -1,9 +1,9 @@
 {
 	"required": true,
-	"package": "xyz.imcodist.mixins",
+	"package": "xyz.imcodist.quickmenu.mixins",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"KeyBindingMixin"
+      "KeyBindingMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

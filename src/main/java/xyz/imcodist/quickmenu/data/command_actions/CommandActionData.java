@@ -1,4 +1,4 @@
-package xyz.imcodist.data.command_actions;
+package xyz.imcodist.quickmenu.data.command_actions;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

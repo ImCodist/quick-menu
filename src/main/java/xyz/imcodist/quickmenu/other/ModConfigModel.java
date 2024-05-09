@@ -1,4 +1,4 @@
-package xyz.imcodist.other;
+package xyz.imcodist.quickmenu.other;
 
 import io.wispforest.owo.config.annotation.Config;
 import io.wispforest.owo.config.annotation.Modmenu;

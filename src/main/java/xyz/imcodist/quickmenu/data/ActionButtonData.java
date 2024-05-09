@@ -1,4 +1,4 @@
-package xyz.imcodist.data;
+package xyz.imcodist.quickmenu.data;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
@@ -8,11 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import xyz.imcodist.QuickMenu;
-import xyz.imcodist.data.command_actions.BaseActionData;
-import xyz.imcodist.data.command_actions.CommandActionData;
-import xyz.imcodist.data.command_actions.KeybindActionData;
-import xyz.imcodist.other.ModConfigModel;
+import xyz.imcodist.quickmenu.QuickMenu;
+import xyz.imcodist.quickmenu.data.command_actions.BaseActionData;
+import xyz.imcodist.quickmenu.data.command_actions.CommandActionData;
+import xyz.imcodist.quickmenu.data.command_actions.KeybindActionData;
+import xyz.imcodist.quickmenu.other.ModConfigModel;
 
 import java.util.ArrayList;
 

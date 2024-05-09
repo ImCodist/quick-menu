@@ -1,8 +1,8 @@
-package xyz.imcodist.other;
+package xyz.imcodist.quickmenu.other;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import xyz.imcodist.mixins.KeyBindingMixin;
+import xyz.imcodist.quickmenu.mixins.KeyBindingMixin;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package xyz.imcodist.mixins;
+package xyz.imcodist.quickmenu.mixins;
 
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package xyz.imcodist.ui;
+package xyz.imcodist.quickmenu.ui;
 
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
@@ -20,16 +20,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
-import xyz.imcodist.data.ActionButtonData;
-import xyz.imcodist.data.command_actions.BaseActionData;
-import xyz.imcodist.data.command_actions.CommandActionData;
-import xyz.imcodist.data.command_actions.KeybindActionData;
-import xyz.imcodist.other.ActionButtonDataHandler;
-import xyz.imcodist.ui.components.QuickMenuButton;
-import xyz.imcodist.ui.popups.ActionPickerUI;
-import xyz.imcodist.ui.popups.ItemPickerUI;
-import xyz.imcodist.ui.popups.KeybindPickerUI;
-import xyz.imcodist.ui.surfaces.SwitcherSurface;
+import xyz.imcodist.quickmenu.data.ActionButtonData;
+import xyz.imcodist.quickmenu.data.command_actions.BaseActionData;
+import xyz.imcodist.quickmenu.data.command_actions.CommandActionData;
+import xyz.imcodist.quickmenu.data.command_actions.KeybindActionData;
+import xyz.imcodist.quickmenu.other.ActionButtonDataHandler;
+import xyz.imcodist.quickmenu.ui.components.QuickMenuButton;
+import xyz.imcodist.quickmenu.ui.popups.ActionPickerUI;
+import xyz.imcodist.quickmenu.ui.popups.ItemPickerUI;
+import xyz.imcodist.quickmenu.ui.popups.KeybindPickerUI;
+import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
