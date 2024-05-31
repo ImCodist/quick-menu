@@ -1,0 +1,45 @@
+{
+  "key.category.quickmenu": "快捷菜单",
+  "key.quickmenu.open": "打开菜单",
+
+
+  "menu.main.title": "快捷菜单",
+  "menu.main.no_actions": "未找到快捷行为.",
+  "menu.main.button.add_action": "添加行为",
+  "menu.main.button.config": "配置",
+
+  "menu.action_picker.select": " > ",
+
+
+  "menu.editor.title": "行为编辑",
+  "menu.editor.button.finish": "完成",
+  "menu.editor.button.cancel": "取消",
+  "menu.editor.actions": "行为",
+  "menu.editor.advanced": "高级",
+  "menu.editor.not_bound": "未指定",
+
+  "menu.editor.property.name": "名字",
+  "menu.editor.property.icon": "图标",
+  "menu.editor.property.keybind": "绑定按键",
+  "menu.editor.property.custommodeldata": "自定义模型数据",
+  "menu.editor.property.new_action": "新行为",
+
+
+  "text.config.quickmenu.title": "快捷菜单配置",
+
+  "text.config.quickmenu.section.menu": "主页",
+  "text.config.quickmenu.section.action_buttons": "选项",
+
+  "text.config.quickmenu.option.menuWidth": "菜单宽度",
+  "text.config.quickmenu.option.menuHeight": "菜单高度",
+    "text.config.quickmenu.option.buttonsPerRow": "按钮每行显示数",
+  "text.config.quickmenu.option.closeOnAction": "Close on Action",
+  "text.config.quickmenu.option.closeOnKeyReleased": "Close on Key Released",
+  "text.config.quickmenu.option.hideEditIcon": "隐藏物品图标",
+  "text.config.quickmenu.option.showActionsInTooltip": "在工具提示中显示操作",
+  "text.config.quickmenu.option.displayRunText": "显示运行提示",
+
+  "text.config.quickmenu.option.displayRunText.value.always": "总是",
+  "text.config.quickmenu.option.displayRunText.value.keybind_only": "仅键盘",
+  "text.config.quickmenu.option.displayRunText.value.never": "从不"
+}
