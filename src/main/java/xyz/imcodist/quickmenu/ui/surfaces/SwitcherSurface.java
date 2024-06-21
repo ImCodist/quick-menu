@@ -58,7 +58,7 @@ public class SwitcherSurface implements Surface {
     }
 
     public void drawTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight) {
-        context.drawTexture(new Identifier("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight, textureWidth, textureHeight);
+        context.drawTexture(Identifier.of("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight, textureWidth, textureHeight);
     }
 
     public void drawRepeatingTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight, int width, int height) {

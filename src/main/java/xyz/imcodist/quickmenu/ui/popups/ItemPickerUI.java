@@ -52,7 +52,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         mainLayout.child(searchBoxLayout);
 
         TextureComponent textureComponent = Components.texture(
-                new Identifier("quickmenu", "textures/search_icon.png"),
+                Identifier.of("quickmenu", "textures/search_icon.png"),
                 0, 0,
                 12, 12,
                 12, 12

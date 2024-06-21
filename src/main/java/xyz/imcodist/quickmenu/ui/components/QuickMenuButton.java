@@ -23,7 +23,7 @@ public class QuickMenuButton extends ButtonComponent {
 
         sizing(Sizing.fixed(26), Sizing.fixed(26));
         renderer(ButtonComponent.Renderer.texture(
-                new Identifier("quickmenu", "textures/switcher_buttons.png"),
+                Identifier.of("quickmenu", "textures/switcher_buttons.png"),
                 0, 0,
                 64, 64
         ));

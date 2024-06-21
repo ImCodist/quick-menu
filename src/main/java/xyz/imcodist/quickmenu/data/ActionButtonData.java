@@ -65,7 +65,7 @@ public class ActionButtonData {
         });
 
         if (json.icon != null) {
-            data.icon = new ItemStack(Registries.ITEM.get(new Identifier(json.icon)));
+            data.icon = new ItemStack(Registries.ITEM.get(Identifier.of(json.icon)));
             data.icon.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(json.customModelData));
         }
 
