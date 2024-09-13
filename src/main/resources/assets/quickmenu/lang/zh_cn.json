@@ -4,7 +4,7 @@
 
 
   "menu.main.title": "快捷菜单",
-  "menu.main.no_actions": "未找到快捷行为.",
+  "menu.main.no_actions": "未找到快捷行为。",
   "menu.main.button.add_action": "添加行为",
   "menu.main.button.config": "配置",
 
@@ -27,19 +27,19 @@
 
   "text.config.quickmenu.title": "快捷菜单配置",
 
-  "text.config.quickmenu.section.menu": "主页",
-  "text.config.quickmenu.section.action_buttons": "选项",
+  "text.config.quickmenu.section.menu": "菜单",
+  "text.config.quickmenu.section.action_buttons": "行为按钮",
 
   "text.config.quickmenu.option.menuWidth": "菜单宽度",
   "text.config.quickmenu.option.menuHeight": "菜单高度",
     "text.config.quickmenu.option.buttonsPerRow": "每行显示按钮",
   "text.config.quickmenu.option.closeOnAction": "触发行为时关闭",
-  "text.config.quickmenu.option.closeOnKeyReleased": "按住时打开图标",
-  "text.config.quickmenu.option.hideEditIcon": "隐藏物品图标",
-  "text.config.quickmenu.option.showActionsInTooltip": "在工具提示中显示操作",
-  "text.config.quickmenu.option.displayRunText": "显示运行提示",
+  "text.config.quickmenu.option.closeOnKeyReleased": "松开按键时关闭",
+  "text.config.quickmenu.option.hideEditIcon": "隐藏编辑图标",
+  "text.config.quickmenu.option.showActionsInTooltip": "在提示框中显示操作",
+  "text.config.quickmenu.option.displayRunText": "显示运行文本",
 
   "text.config.quickmenu.option.displayRunText.value.always": "总是",
-  "text.config.quickmenu.option.displayRunText.value.keybind_only": "仅键盘",
+  "text.config.quickmenu.option.displayRunText.value.keybind_only": "仅绑定按键",
   "text.config.quickmenu.option.displayRunText.value.never": "从不"
 }
