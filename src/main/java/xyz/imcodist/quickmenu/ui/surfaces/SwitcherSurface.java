@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.ParentComponent;
 import io.wispforest.owo.ui.core.Surface;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 public class SwitcherSurface implements Surface {
@@ -58,7 +59,7 @@ public class SwitcherSurface implements Surface {
     }
 
     public void drawTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight) {
-        context.drawTexture(Identifier.of("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight, textureWidth, textureHeight);
+        context.drawTexture(RenderLayer::getGuiTexturedOverlay, Identifier.of("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight, textureWidth, textureHeight);
     }
 
     public void drawRepeatingTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight, int width, int height) {
