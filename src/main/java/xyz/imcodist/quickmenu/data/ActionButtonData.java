@@ -15,6 +15,7 @@ import xyz.imcodist.quickmenu.data.command_actions.KeybindActionData;
 import xyz.imcodist.quickmenu.other.ModConfigModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActionButtonData {
     public String name;
@@ -45,7 +46,7 @@ public class ActionButtonData {
                 jsonData.icon = icon.getRegistryEntry().getKey().get().getValue().toString();
             }
 
-            jsonData.customModelData = icon.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT).value();
+            jsonData.modelData = new ActionButtonDataJSON.ModelData(icon.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT));
         }
 
         return jsonData;
@@ -66,7 +67,10 @@ public class ActionButtonData {
 
         if (json.icon != null) {
             data.icon = new ItemStack(Registries.ITEM.get(Identifier.of(json.icon)));
-            data.icon.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(json.customModelData));
+
+            if (json.modelData != null) {
+                data.icon.set(DataComponentTypes.CUSTOM_MODEL_DATA, json.modelData.toComponent());
+            }
         }
 
         return data;

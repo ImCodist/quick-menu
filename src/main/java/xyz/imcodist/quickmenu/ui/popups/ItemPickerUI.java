@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 public class ItemPickerUI extends OverlayContainer<FlowLayout> {
     public ItemStack selectedItem;
-    public Integer customModelData;
+    public CustomModelDataComponent customModelData;
 
     public Consumer<ItemStack> onSelectedItem;
 
@@ -104,7 +104,7 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 ItemStack item = items.get(curItem).getDefaultStack();
 
                 if (customModelData != null) {
-                    item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(customModelData));
+                    item.set(DataComponentTypes.CUSTOM_MODEL_DATA, customModelData);
                 }
 
                 ButtonComponent button = new QuickMenuButton(item, (buttonComponent) -> {

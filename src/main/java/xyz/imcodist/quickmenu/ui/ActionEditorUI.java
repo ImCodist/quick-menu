@@ -31,7 +31,9 @@ import xyz.imcodist.quickmenu.ui.popups.ItemPickerUI;
 import xyz.imcodist.quickmenu.ui.popups.KeybindPickerUI;
 import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
@@ -159,8 +161,8 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
         advancedLayout.child(customModelDataProperty);
 
-        Integer customModelData = getCustomModelData(iconButton.itemIcon);
-        String cmdText = customModelData != 0 ? customModelData.toString() : "";
+        CustomModelDataComponent customModelData = getCustomModelData(iconButton.itemIcon);
+        String cmdText = customModelData != null ? customModelData.toString() : "";
 
         customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
         customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
@@ -214,9 +216,9 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         buttonsLayout.child(cancelButton);
     }
 
-    private Integer getCustomModelData(ItemStack item) {
-        if (item == null) return CustomModelDataComponent.DEFAULT.value();
-        return item.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT).value();
+    private CustomModelDataComponent getCustomModelData(ItemStack item) {
+        if (item == null) return CustomModelDataComponent.DEFAULT;
+        return item.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT);
     }
 
     private void updateCustomModelData(ItemStack itemStack) {
@@ -227,7 +229,9 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         try {
             if (!text.equals("")) {
-                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(Integer.parseInt(text)));
+                ArrayList<Integer> modelList = new ArrayList<>();
+                modelList.add(Integer.parseInt(text));
+                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of(), modelList));
             } else {
                 itemStack.remove(DataComponentTypes.CUSTOM_MODEL_DATA);
             }
