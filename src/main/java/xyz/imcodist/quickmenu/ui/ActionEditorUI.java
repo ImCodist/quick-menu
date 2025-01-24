@@ -1,10 +1,9 @@
 package xyz.imcodist.quickmenu.ui;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
-import io.wispforest.owo.ui.component.ButtonComponent;
-import io.wispforest.owo.ui.component.Components;
-import io.wispforest.owo.ui.component.LabelComponent;
-import io.wispforest.owo.ui.component.TextBoxComponent;
+import io.wispforest.owo.ui.component.*;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.OverlayContainer;
@@ -21,6 +20,7 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import xyz.imcodist.quickmenu.data.ActionButtonData;
+import xyz.imcodist.quickmenu.data.ActionButtonDataJSON;
 import xyz.imcodist.quickmenu.data.command_actions.BaseActionData;
 import xyz.imcodist.quickmenu.data.command_actions.CommandActionData;
 import xyz.imcodist.quickmenu.data.command_actions.KeybindActionData;
@@ -31,7 +31,9 @@ import xyz.imcodist.quickmenu.ui.popups.ItemPickerUI;
 import xyz.imcodist.quickmenu.ui.popups.KeybindPickerUI;
 import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
+import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,7 +48,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     private OverlayContainer<FlowLayout> pickerUI;
 
-    private TextBoxComponent customModelDataTextBox;
+    private TextAreaComponent customModelDataTextBox;
     private ButtonComponent keybindButton;
     private boolean settingKeybind = false;
     private boolean boundKeybind = false;
@@ -161,14 +163,15 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
         advancedLayout.child(customModelDataProperty);
 
-        CustomModelDataComponent customModelData = getCustomModelData(iconButton.itemIcon);
-        String cmdText = customModelData != null ? customModelData.toString() : "";
+        ActionButtonDataJSON.ModelData customModelData = new ActionButtonDataJSON.ModelData(getCustomModelData(iconButton.itemIcon));
 
-        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
+        Gson gson = new Gson();
+        String cmdText = gson.toJson(customModelData);
+
+        customModelDataTextBox = Components.textArea(Sizing.fixed(75), Sizing.fixed(50), cmdText);
         customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
 
         customModelDataTextBox.onChanged().subscribe((text) -> {
-            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
             updateCustomModelData(iconButton.itemIcon);
         });
 
@@ -223,15 +226,24 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
     private void updateCustomModelData(ItemStack itemStack) {
         // updates the items custom model data to that of the users input.
-        String text = customModelDataTextBox.getText();
+        Gson gson = new Gson();
+        Type modelDataType = new TypeToken<ActionButtonDataJSON.ModelData>(){}.getType();
+
+        String jsonText = customModelDataTextBox.getText();
+
+        ActionButtonDataJSON.ModelData newModelData = null;
+
+        try (StringReader reader = new StringReader(jsonText)) {
+            newModelData = gson.fromJson(reader, modelDataType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (itemStack == null) return;
 
         try {
-            if (!text.equals("")) {
-                ArrayList<Integer> modelList = new ArrayList<>();
-                modelList.add(Integer.parseInt(text));
-                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of(), modelList));
+            if (newModelData != null) {
+                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, newModelData.toComponent());
             } else {
                 itemStack.remove(DataComponentTypes.CUSTOM_MODEL_DATA);
             }
