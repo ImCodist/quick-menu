@@ -159,14 +159,12 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         FlowLayout customModelDataProperty = createNewProperty("custommodeldata", false);
         advancedLayout.child(customModelDataProperty);
 
-        Integer customModelData = getCustomModelData(iconButton.itemIcon);
-        String cmdText = customModelData != 0 ? customModelData.toString() : "";
+        String customModelData = getCustomModelData(iconButton.itemIcon);
 
-        customModelDataTextBox = Components.textBox(Sizing.fixed(75), cmdText);
+        customModelDataTextBox = Components.textBox(Sizing.fixed(75), customModelData);
         customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
 
         customModelDataTextBox.onChanged().subscribe((text) -> {
-            customModelDataTextBox.setText(text.replaceAll("^0+|\\D", ""));
             updateCustomModelData(iconButton.itemIcon);
         });
 
@@ -214,9 +212,13 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         buttonsLayout.child(cancelButton);
     }
 
-    private Integer getCustomModelData(ItemStack item) {
-        if (item == null) return CustomModelDataComponent.DEFAULT.value();
-        return item.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT).value();
+    private String getCustomModelData(ItemStack item) {
+        if (item == null) return "";
+
+        CustomModelDataComponent cmdComponent = item.getOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent.DEFAULT);
+        if (cmdComponent.strings().isEmpty()) return "";
+
+        return cmdComponent.strings().getFirst();
     }
 
     private void updateCustomModelData(ItemStack itemStack) {
@@ -226,8 +228,10 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         if (itemStack == null) return;
 
         try {
+            ActionButtonData.CustomModelDataValues values = new ActionButtonData.CustomModelDataValues(text);
             if (!text.equals("")) {
-                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(Integer.parseInt(text)));
+                itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, values.getComponent());
+                System.out.println(getCustomModelData(itemStack));
             } else {
                 itemStack.remove(DataComponentTypes.CUSTOM_MODEL_DATA);
             }

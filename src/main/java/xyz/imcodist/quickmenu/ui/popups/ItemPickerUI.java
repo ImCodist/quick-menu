@@ -10,11 +10,11 @@ import io.wispforest.owo.ui.container.OverlayContainer;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import xyz.imcodist.quickmenu.data.ActionButtonData;
 import xyz.imcodist.quickmenu.ui.components.QuickMenuButton;
 import xyz.imcodist.quickmenu.ui.surfaces.SwitcherSurface;
 
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 public class ItemPickerUI extends OverlayContainer<FlowLayout> {
     public ItemStack selectedItem;
-    public Integer customModelData;
+    public String customModelData;
 
     public Consumer<ItemStack> onSelectedItem;
 
@@ -85,12 +85,12 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
         Registries.ITEM.forEach((item) -> {
             String itemName = item.getName().getString().toLowerCase();
 
-            if (search.equals("") || itemName.contains(search.toLowerCase())) {
+            if (search.isEmpty() || itemName.contains(search.toLowerCase())) {
                 items.add(item);
             }
         });
 
-        if (items.size() == 0) return;
+        if (items.isEmpty()) return;
 
         // Create each button in different rows.
         int curItem = 0;
@@ -104,7 +104,8 @@ public class ItemPickerUI extends OverlayContainer<FlowLayout> {
                 ItemStack item = items.get(curItem).getDefaultStack();
 
                 if (customModelData != null) {
-                    item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(customModelData));
+                    ActionButtonData.CustomModelDataValues values = new ActionButtonData.CustomModelDataValues(customModelData);
+                    item.set(DataComponentTypes.CUSTOM_MODEL_DATA, values.getComponent());
                 }
 
                 ButtonComponent button = new QuickMenuButton(item, (buttonComponent) -> {
