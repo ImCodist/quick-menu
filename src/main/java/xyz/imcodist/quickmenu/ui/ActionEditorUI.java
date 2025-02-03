@@ -164,9 +164,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
         customModelDataTextBox = Components.textBox(Sizing.fixed(75), customModelData);
         customModelDataTextBox.cursorStyle(CursorStyle.TEXT);
 
-        customModelDataTextBox.onChanged().subscribe((text) -> {
-            updateCustomModelData(iconButton.itemIcon);
-        });
+        customModelDataTextBox.onChanged().subscribe((text) -> updateCustomModelData(iconButton.itemIcon));
 
         customModelDataProperty.child(customModelDataTextBox);
 
@@ -229,7 +227,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
 
         try {
             ActionButtonData.CustomModelDataValues values = new ActionButtonData.CustomModelDataValues(text);
-            if (!text.equals("")) {
+            if (!text.isEmpty()) {
                 itemStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, values.getComponent());
                 System.out.println(getCustomModelData(itemStack));
             } else {
@@ -395,11 +393,11 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
             if (!isMouse) {
                 message = InputUtil.fromKeyCode(keybind.get(0), keybind.get(1)).getLocalizedText().getString();
             } else {
-                message = switch (keybind.get(0)) {
+                message = switch (keybind.getFirst()) {
                     case 0 -> "Left Button";
                     case 1 -> "Right Button";
                     case 2 -> "Middle Button";
-                    default -> "Mouse " + keybind.get(0);
+                    default -> "Mouse " + keybind.getFirst();
                 };
             }
         }
@@ -409,7 +407,7 @@ public class ActionEditorUI extends BaseOwoScreen<FlowLayout> {
     }
 
     private void updateActionKeybindMessage(ButtonComponent button, KeybindActionData actionData) {
-        if (!actionData.keybindTranslationKey.equals("")) {
+        if (!actionData.keybindTranslationKey.isEmpty()) {
             String textString = Text.translatable(actionData.keybindTranslationKey).getString();
             int maxLength = 14;
 
